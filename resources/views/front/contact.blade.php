@@ -36,7 +36,7 @@
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50 py-12 md:py-16">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00] py-12 md:py-16">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <!-- Flash Message with Animation -->
         @if(session('success'))
@@ -215,7 +215,7 @@
 
             <!-- Contact Form -->
             <div id="contact-form">
-                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10 hover-card form-container fade-in-up animation-delay-100">
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10 hover-card  fade-in-up animation-delay-100">
                     <div class="flex items-center mb-8">
                         <div class="w-2 h-10 bg-[#06284f] rounded-full mr-4"></div>
                         <h2 class="text-2xl md:text-3xl font-bold text-[#001F3F]">Kirim Pesan</h2>

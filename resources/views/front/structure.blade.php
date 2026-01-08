@@ -107,7 +107,7 @@ if (isset($dpdStructures) && is_iterable($dpdStructures)) {
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00]">
     <div class="container mx-auto px-4 py-12">
         
         <!-- DPD Structure -->
@@ -471,7 +471,7 @@ if (isset($dpdStructures) && is_iterable($dpdStructures)) {
 
     <!-- DPC Structures -->
     @if($dpcs->count() > 0)
-    <section class="py-16 bg-gray-100 full-width fade-in-up animation-delay-100">
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-100">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 full-width">
                 <div class="text-center mb-12">
@@ -628,7 +628,7 @@ if (isset($dpdStructures) && is_iterable($dpdStructures)) {
 
     <!-- DPRT Structures -->
     @if($dprts->count() > 0)
-    <section class="py-16 bg-white full-width fade-in-up animation-delay-200">
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-200">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
                 <div class="text-center mb-12">

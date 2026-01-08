@@ -296,4 +296,6 @@ class KaderController extends Controller
             ] : null,
         ]);
     }
+
+    
 }

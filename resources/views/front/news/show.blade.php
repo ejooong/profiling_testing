@@ -88,7 +88,7 @@
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50 py-12 md:py-16">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00] py-12 md:py-16">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <div class="flex flex-col lg:flex-row gap-8 xl:gap-12">
             <!-- Article Content -->

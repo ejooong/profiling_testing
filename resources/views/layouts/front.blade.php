@@ -391,7 +391,7 @@
             Dashboard
         </a>
         @else
-        <a href="{{ route('login') }}" class="ml-4 px-4 py-2 bg-white text-nasdem-navy rounded-md font-medium text-sm hover:bg-blue-100">
+        <a href="{{ route('login') }}" class="ml-4 px-4 py-2 bg-white text-[#DC2626] rounded-md font-medium text-sm hover:bg-blue-100">
             Login
         </a>
         @endauth

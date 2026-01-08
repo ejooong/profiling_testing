@@ -9,7 +9,7 @@ use App\Http\Controllers\Front\GalleryController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\MembershipController;
 use App\Http\Controllers\Front\KaderController;
-
+use App\Http\Controllers\Front\KaderCheckController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,7 +38,8 @@ Route::get('/kader/register', [KaderController::class, 'create'])->name('kader.r
 Route::post('/kader/register', [KaderController::class, 'store'])->name('kader.store');
 Route::get('/kader/status', [MembershipController::class, 'check'])->name('membership.check');
 Route::post('/kader/verify', [MembershipController::class, 'verify'])->name('membership.verify');
-
+Route::get('/kader/check', [KaderCheckController::class, 'checkForm'])->name('kader.check.form');
+Route::post('/kader/check', [KaderCheckController::class, 'checkStatus'])->name('kader.check.status');
 Route::get('/api/dprt-by-dpc/{dpcId}', function ($dpcId) {
     $dprts = \App\Models\DPRT\Dprt::where('dpc_id', $dpcId)
         ->where('is_active', true)
@@ -52,6 +53,10 @@ Route::prefix('kader')->name('kader.')->group(function () {
         ->name('register');
     Route::post('/register', [\App\Http\Controllers\Front\KaderController::class, 'store'])
         ->name('store');
+            Route::get('/check-status', [KaderController::class, 'checkStatusForm'])->name('check-status.form');
+    Route::post('/check-status', [KaderController::class, 'checkStatus'])->name('check-status');
+    Route::get('/kader/status', [MembershipController::class, 'check'])->name('membership.check');
+Route::post('/kader/status', [MembershipController::class, 'checkStatus']);
 });
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['role:super-admin,dpd-admin'])->prefix('berita/categories')->name('berita.categories.')->group(function () {

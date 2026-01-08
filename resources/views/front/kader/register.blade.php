@@ -36,7 +36,7 @@
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50 py-12 md:py-16">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00] py-12 md:py-16">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <!-- Flash Message with Animation -->
         @if(session('success'))

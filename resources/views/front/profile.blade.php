@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Hero Section with Particles Animation -->
-<section class="nasdem-gradient py-16 md:py-20 full-width relative overflow-hidden">
+<section class="nasdem-gradient py-16 md:py-20 full-width relative overflow-hidden" style="background: linear-gradient(135deg, #001F3F 0%, #0a2f5a 100%);">
     <!-- Animated Background Particles -->
     <div class="absolute inset-0">
         <div class="particles">
@@ -38,57 +38,299 @@
 
 <!-- Main Content -->
 <main class="full-width bg-gray-50">
-    @if($dpd)
-    <!-- DPD Info -->
-    <section id="dpd-info" class="py-16 bg-white full-width fade-in-up">
-        <div class="px-4 sm:px-6 lg:px-8 mx-auto">
-            <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
-                <div class="flex flex-col lg:flex-row items-center gap-8 mb-10">
-                    <div class="lg:w-1/3">
-                        <div class="dpd-logo bounce-in">
-                            <span class="logo-text">NasDem</span>
-                            <div class="logo-glow"></div>
+@if($dpd)
+<!-- DPD Info -->
+<section id="dpd-info" class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up">
+    <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+        <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
+            <!-- Main Title -->
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">Struktur Pimpinan</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Pimpinan Partai NasDem di Tingkat Pusat dan Daerah</p>
+            </div>
+
+            <!-- Ketua Umum (Tengah) -->
+            <div class="fade-in-up animation-delay-100 mb-20">
+                <div class="text-center">
+                    <!-- Foto Ketua Umum - Kotak Besar -->
+<div class="max-w-3xl mx-auto">
+    <div class="aspect-square rounded-lg overflow-hidden border-4 border-white shadow-2xl mb-8">
+        @if(file_exists(public_path('images/ketum.png')))
+        <img src="{{ asset('images/ketum.png') }}" 
+             alt="Ketua Umum Partai NasDem"
+             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+        @else
+        <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
+            <i class="fas fa-user text-white text-12xl"></i>
+        </div>
+        @endif
+    </div>
+</div>
+                    
+                    <!-- Info Ketua Umum - Sederhana di Tengah -->
+                    <div>
+                        <h3 class="text-4xl md:text-5xl font-bold text-[#001F3F] mb-4">H. Surya Paloh</h3>
+                        <div class="inline-block bg-gradient-to-r from-[#001F3F] to-blue-700 text-white px-8 py-3 rounded-lg font-bold text-xl md:text-2xl shadow-xl mb-6">
+                            Ketua Umum Partai NasDem
                         </div>
                     </div>
-                    <div class="lg:w-2/3">
-                        <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">{{ $dpd->name }}</h2>
-                        <p class="text-gray-600 text-lg mb-6">
-                            <i class="fas fa-map-marker-alt text-[#001F3F] mr-2"></i>{{ $dpd->address }}
-                        </p>
-                        <p class="text-gray-700 text-lg leading-relaxed">{{ $dpd->description }}</p>
+                </div>
+            </div>
+
+            <!-- Ketua DPW dan Ketua DPD (Sejajar) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 fade-in-up animation-delay-200">
+                <!-- Ketua DPW (Kiri) -->
+                <div class="leader-card">
+                    <!-- Foto Ketua DPW - Kotak -->
+                    <div class="w-64 h-64 rounded-lg overflow-hidden border-4 border-white shadow-xl mx-auto mb-8">
+                        @if(file_exists(public_path('images/dpw.png')))
+                        <img src="{{ asset('images/dpw.png') }}" 
+                             alt="Ketua DPW Jawa Timur"
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                        @else
+                        <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-7xl"></i>
+                        </div>
+                        @endif
+                    </div>
+                    
+                    <!-- Info Ketua DPW - Sederhana -->
+                    <div class="text-center">
+                        <h3 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">{{ $dpd->ketua_dpw ?? 'Keling' }}</h3>
+                        <div class="inline-block bg-gradient-to-r from-[#001F3F] to-blue-700 text-white px-6 py-2 rounded-lg font-bold text-lg md:text-xl shadow-lg">
+                            Ketua Dewan Pimpinan Wilayah Jawa Timur
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 fade-in-up animation-delay-100">
-                    <div class="leadership-card">
-                        <div class="leadership-icon">
-                            <i class="fas fa-user-tie"></i>
+                <!-- Ketua DPD (Kanan) -->
+                <div class="leader-card">
+                    <!-- Foto Ketua DPD - Kotak -->
+                    <div class="w-64 h-64 rounded-lg overflow-hidden border-4 border-white shadow-xl mx-auto mb-8">
+                        @if(file_exists(public_path('images/dpd.png')))
+                        <img src="{{ asset('images/dpd.png') }}" 
+                             alt="Ketua DPD Bojonegoro"
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                        @else
+                        <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-7xl"></i>
                         </div>
-                        <h3 class="leadership-title">Ketua</h3>
-                        <p class="leadership-name">{{ $dpd->ketua }}</p>
+                        @endif
                     </div>
-                    <div class="leadership-card">
-                        <div class="leadership-icon">
-                            <i class="fas fa-file-alt"></i>
+                    
+                    <!-- Info Ketua DPD - Sederhana -->
+                    <div class="text-center">
+                        <h3 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">{{ $dpd->ketua }}</h3>
+                        <div class="inline-block bg-gradient-to-r from-[#001F3F] to-blue-700 text-white px-6 py-2 rounded-lg font-bold text-lg md:text-xl shadow-lg">
+                            Ketua Dewan Pimpinan Daerah Bojonegoro
                         </div>
-                        <h3 class="leadership-title">Sekretaris</h3>
-                        <p class="leadership-name">{{ $dpd->sekretaris }}</p>
                     </div>
-                    <div class="leadership-card">
-                        <div class="leadership-icon">
-                            <i class="fas fa-chart-pie"></i>
+                </div>
+            </div>
+
+            <!-- Informasi DPD Bojonegoro -->
+            <!-- <div class="mt-20 pt-12 border-t border-gray-200 fade-in-up animation-delay-300"> -->
+                <!-- Alamat DPD -->
+                <!-- <div class="bg-white rounded-xl p-8 border border-[#001F3F]/20 shadow-lg mb-10">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                        <div class="w-16 h-16 rounded-lg bg-gradient-to-r from-[#001F3F] to-blue-700 flex items-center justify-center flex-shrink: 0 mx-auto md:mx-0">
+                            <i class="fas fa-map-marker-alt text-white text-2xl"></i>
                         </div>
-                        <h3 class="leadership-title">Bendahara</h3>
-                        <p class="leadership-name">{{ $dpd->bendahara }}</p>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-[#001F3F] mb-3">Alamat Kantor DPD</h3>
+                            <p class="text-gray-700 text-lg">{{ $dpd->address }}</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Sekretaris & Bendahara -->
+                <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10"> -->
+                    <!-- Sekretaris -->
+                    <!-- <div class="bg-white rounded-xl p-8 border border-[#001F3F]/20 shadow-lg">
+                        <div class="flex items-center gap-6">
+                            <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-[#001F3F] to-blue-700 flex items-center justify-center">
+                                <i class="fas fa-file-alt text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-[#001F3F]">Sekretaris</h3>
+                        </div>
+                        <p class="text-gray-700 text-2xl font-semibold text-center md:text-left">{{ $dpd->sekretaris }}</p>
+                    </div> -->
+
+                    <!-- Bendahara -->
+                    <!-- <div class="bg-white rounded-xl p-8 border border-[#001F3F]/20 shadow-lg">
+                        <div class="flex items-center gap-6">
+                            <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-[#001F3F] to-blue-700 flex items-center justify-center">
+                                <i class="fas fa-chart-pie text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-[#001F3F]">Bendahara</h3>
+                        </div>
+                        <p class="text-gray-700 text-2xl font-semibold text-center md:text-left">{{ $dpd->bendahara }}</p>
+                    </div>
+                </div> -->
+                
+                <!-- Deskripsi DPD -->
+                <!-- <div class="bg-white rounded-xl p-8 border border-[#001F3F]/20 shadow-lg">
+                    <h3 class="text-2xl font-bold text-[#001F3F] mb-6">Tentang {{ $dpd->name }}</h3>
+                    <p class="text-gray-700 text-lg leading-relaxed">{{ $dpd->description }}</p>
+                </div>
+            </div> -->
+
+            
+        </div>
+    </div>
+</section>
+@endif
+
+    <!-- Mars & Hymne NasDem -->
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-100">
+        <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+<div class="section-header mb-10 flex flex-col items-center justify-center text-center">
+    <div class="music-icon mb-4">
+        <i class="fas fa-music"></i>
+    </div>
+    <div>
+        <h2 class="section-title">Mars & Hymne Partai NasDem</h2>
+        <p class="section-subtitle">Dengarkan dan pelajari lagu kebanggaan Partai NasDem</p>
+    </div>
+</div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Mars NasDem -->
+                    <div class="video-card fade-in-up">
+                        <div class="video-header">
+                            <div class="video-icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <h3 class="video-title">Mars Partai NasDem</h3>
+                        </div>
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VeZMin-ESLE?si=7tT_Su5FlOf0oznp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <p><i class="fas fa-clock mr-2"></i> Durasi: 3:45</p>
+                            <p><i class="fas fa-eye mr-2"></i> Lirik tersedia</p>
+                        </div>
+                    </div>
+
+                    <!-- Hymne NasDem -->
+                    <div class="video-card fade-in-up animation-delay-100">
+                        <div class="video-header">
+                            <div class="video-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h3 class="video-title">Hymne Partai NasDem</h3>
+                        </div>
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/pzGGa1isCbs?si=IHNz4HVC6pAcDRHe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <p><i class="fas fa-clock mr-2"></i> Durasi: 4:20</p>
+                            <p><i class="fas fa-file-alt mr-2"></i> Teks tersedia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200 fade-in-up animation-delay-200">
+                    <div class="music-note">
+                        <i class="fas fa-music"></i>
+                        <p class="music-text">Lagu-lagu ini mencerminkan semangat dan perjuangan Partai NasDem dalam membangun Indonesia yang lebih baik.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    @endif
+
+    <!-- Anggota Dewan Kabupaten -->
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-100">
+        <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+            <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="section-header mb-10 flex flex-col items-center justify-center text-center">
+                    <div class="members-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Anggota Dewan Perwakilan</h2>
+                        <p class="section-subtitle">Perwakilan Partai NasDem di Kabupaten Bojonegoro</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @foreach($anggotaDewan ?? [] as $anggota)
+                    <div class="member-card fade-in-up animation-delay-{{ $loop->index * 50 }}">
+                        <div class="member-photo">
+                            @if($anggota->photo && file_exists(public_path('storage/' . $anggota->photo)))
+                            <img src="{{ asset('storage/' . $anggota->photo) }}" 
+                                 alt="{{ $anggota->name }}"
+                                 class="group-hover:scale-110">
+                            @else
+                            <div class="photo-placeholder bg-gradient-to-r from-[#001F3F] to-blue-700">
+                                <i class="fas fa-user text-white text-3xl"></i>
+                            </div>
+                            @endif
+                            <div class="member-badge">{{ $anggota->jabatan }}</div>
+                        </div>
+                        
+                        <div class="member-info">
+                            <h3 class="member-name">{{ $anggota->name }}</h3>
+                            <p class="member-position">{{ $anggota->jabatan_detail }}</p>
+                            <div class="member-commission">
+                                <i class="fas fa-sitemap mr-2"></i>
+                                {{ $anggota->komisi ?? 'Komisi' }}
+                            </div>
+                            <div class="member-contact">
+                                @if($anggota->email)
+                                <a href="mailto:{{ $anggota->email }}" class="contact-link">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                @endif
+                                @if($anggota->phone)
+                                <a href="tel:{{ $anggota->phone }}" class="contact-link">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <!-- Fallback jika tidak ada data -->
+                    @if(empty($anggotaDewan) || count($anggotaDewan) === 0)
+                    <div class="col-span-full text-center py-12">
+                        <div class="no-data-icon">
+                            <i class="fas fa-users-slash text-6xl text-gray-400 mb-6"></i>
+                            <h3 class="text-2xl font-bold text-gray-600 mb-4">Data Sedang Disiapkan</h3>
+                            <p class="text-gray-500 max-w-md mx-auto">Informasi mengenai anggota dewan perwakilan sedang dalam proses pengumpulan data. Silakan cek kembali beberapa waktu mendatang.</p>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-gray-200 fade-in-up">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="stats-card">
+                            <div class="stats-number">{{ count($anggotaDewan ?? []) }}</div>
+                            <div class="stats-label">Total Anggota</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="stats-number">{{ $dapilCount ?? '8' }}</div>
+                            <div class="stats-label">Daerah Pemilihan</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="stats-number">{{ $komisiCount ?? '4' }}</div>
+                            <div class="stats-label">Komisi</div>
+                        </div>
+                        <a href="{{ route('structure') }}" class="members-cta-btn">
+                            <i class="fas fa-sitemap mr-3"></i>Lihat Struktur Lengkap
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Visi & Misi -->
-    <section class="py-16 bg-gray-100 full-width fade-in-up animation-delay-100">
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-300">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Visi -->
@@ -131,7 +373,7 @@
     </section>
 
     <!-- Sejarah -->
-    <section class="py-16 bg-white full-width fade-in-up animation-delay-200">
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-400">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12">
                 <div class="section-header">
@@ -179,7 +421,7 @@
     </section>
 
     <!-- Program Kerja -->
-    <section class="py-16 bg-gray-100 full-width fade-in-up animation-delay-300">
+    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-500">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
                 <div class="section-header">
@@ -217,7 +459,7 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="py-20 bg-gradient-to-r from-[#001F3F] via-blue-800 to-blue-900 full-width fade-in-up animation-delay-400">
+    <section class="py-20 bg-gradient-to-r from-[#001F3F] via-blue-700 to-blue-800 full-width fade-in-up animation-delay-600">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto text-center">
             <div class="cta-icon">
                 <i class="fas fa-users"></i>
@@ -281,6 +523,18 @@
         });
     });
 
+    // Member card hover effect
+    const memberCards = document.querySelectorAll('.member-card');
+    memberCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -297,12 +551,98 @@
             }
         });
     });
+
+    // YouTube iframe lazy loading
+    document.addEventListener('DOMContentLoaded', function() {
+        const videoContainers = document.querySelectorAll('.video-container');
+        
+        videoContainers.forEach(container => {
+            const iframe = container.querySelector('iframe');
+            if (iframe) {
+                // Add loading attribute for better performance
+                iframe.setAttribute('loading', 'lazy');
+                
+                // Handle YouTube iframe API if needed
+                iframe.setAttribute('src', iframe.getAttribute('src') + '&enablejsapi=1');
+            }
+        });
+    });
 </script>
 @endpush
 
 @push('styles')
 <style>
-    /* Hero Section Particles - Sama seperti contact page */
+    /* Leader Cards */
+.leader-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.leader-card:hover {
+    border-color: #001F3F;
+    box-shadow: 0 25px 60px rgba(0, 31, 63, 0.15);
+    transform: translateY(-8px);
+}
+
+.leader-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #001F3F, #0a2f5a);
+}
+
+/* Responsive Design for DPD Section */
+@media (max-width: 768px) {
+    .leader-card {
+        padding: 32px 24px;
+    }
+    
+    .w-80, .w-96 {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .w-64 {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .leader-card {
+        margin-bottom: 40px;
+    }
+    
+    .leader-card:last-child {
+        margin-bottom: 0;
+    }
+    
+    .w-80, .w-96 {
+        width: 240px;
+        height: 240px;
+    }
+    
+    .w-64 {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+    /* Hero Section Particles */
     .particles {
         position: absolute;
         inset: 0;
@@ -325,15 +665,12 @@
             transform: translateY(0) translateX(0);
             opacity: 0;
         }
-
         10% {
             opacity: 1;
         }
-
         90% {
             opacity: 1;
         }
-
         100% {
             transform: translateY(-100vh) translateX(20px);
             opacity: 0;
@@ -346,30 +683,15 @@
             opacity: 0;
             transform: scale(0.3);
         }
-
         50% {
             opacity: 1;
             transform: scale(1.05);
         }
-
         70% {
             transform: scale(0.9);
         }
-
         100% {
             transform: scale(1);
-        }
-    }
-
-    @keyframes fade-up {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
         }
     }
 
@@ -388,6 +710,10 @@
         transform: translateY(0);
     }
 
+    .animation-delay-50 {
+        transition-delay: 0.05s;
+    }
+
     .animation-delay-100 {
         transition-delay: 0.1s;
     }
@@ -402,6 +728,14 @@
 
     .animation-delay-400 {
         transition-delay: 0.4s;
+    }
+
+    .animation-delay-500 {
+        transition-delay: 0.5s;
+    }
+
+    .animation-delay-600 {
+        transition-delay: 0.6s;
     }
 
     /* DPD Logo */
@@ -438,7 +772,6 @@
         from {
             transform: rotate(0deg);
         }
-
         to {
             transform: rotate(360deg);
         }
@@ -506,6 +839,272 @@
         margin-bottom: 40px;
     }
 
+    /* Video Section */
+    .music-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 24px;
+        font-size: 24px;
+        color: white;
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
+    }
+
+    .video-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .video-card:hover {
+        border-color: #001F3F;
+        box-shadow: 0 20px 50px rgba(0, 31, 63, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .video-header {
+        padding: 24px 24px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .video-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+        color: white;
+        font-size: 18px;
+    }
+
+    .video-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #374151;
+    }
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        margin: 16px;
+        border-radius: 12px;
+        background: #000;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .video-info {
+        padding: 16px 24px 24px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #6B7280;
+        border-top: 1px solid #F3F4F6;
+    }
+
+    .music-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(0, 31, 63, 0.1), rgba(10, 47, 90, 0.05));
+        border-radius: 12px;
+        border-left: 4px solid #001F3F;
+    }
+
+    .music-note i {
+        color: #001F3F;
+        font-size: 24px;
+    }
+
+    .music-text {
+        flex: 1;
+        color: #374151;
+        font-size: 16px;
+        font-style: italic;
+    }
+
+    /* Member Cards */
+    .members-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 24px;
+        font-size: 24px;
+        color: white;
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
+    }
+
+    .member-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .member-card:hover {
+        border-color: #001F3F;
+        box-shadow: 0 20px 50px rgba(0, 31, 63, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .member-photo {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .member-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .photo-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .member-badge {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
+        color: white;
+        padding: 8px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    .member-info {
+        padding: 24px;
+    }
+
+    .member-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #374151;
+        margin-bottom: 4px;
+    }
+
+    .member-position {
+        font-size: 14px;
+        color: #001F3F;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .member-commission {
+        font-size: 13px;
+        color: #6B7280;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .member-contact {
+        display: flex;
+        gap: 12px;
+        border-top: 1px solid #F3F4F6;
+        padding-top: 16px;
+    }
+
+    .contact-link {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #F3F4F6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6B7280;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+        background: #001F3F;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .no-data-icon {
+        padding: 40px 20px;
+    }
+
+    .stats-card {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        min-width: 120px;
+    }
+
+    .stats-number {
+        font-size: 32px;
+        font-weight: bold;
+        color: #001F3F;
+        margin-bottom: 8px;
+    }
+
+    .stats-label {
+        font-size: 14px;
+        color: #6B7280;
+    }
+
+    .members-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 24px;
+        background: #001F3F;
+        color: white;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 31, 63, 0.2);
+    }
+
+    .members-cta-btn:hover {
+        background: #0a2f5a;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 31, 63, 0.3);
+    }
+
     /* Vision Section */
     .vision-icon,
     .mission-icon,
@@ -523,32 +1122,32 @@
     }
 
     .vision-icon {
-        background: linear-gradient(135deg, #3B82F6, #2563EB);
-    }
-
-    .mission-icon {
         background: linear-gradient(135deg, #001F3F, #0a2f5a);
     }
 
+    .mission-icon {
+        background: linear-gradient(135deg, #0a2f5a, #001F3F);
+    }
+
     .history-icon {
-        background: linear-gradient(135deg, #F59E0B, #D97706);
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
     }
 
     .program-icon {
-        background: linear-gradient(135deg, #10B981, #059669);
+        background: linear-gradient(135deg, #0a2f5a, #001F3F);
     }
 
     .vision-content {
         position: relative;
-        background: #EFF6FF;
+        background: #f0f8ff;
         padding: 40px;
         border-radius: 16px;
-        border-left: 4px solid #3B82F6;
+        border-left: 4px solid #001F3F;
     }
 
     .vision-quote {
         position: absolute;
-        color: #3B82F6;
+        color: #001F3F;
         opacity: 0.2;
         font-size: 48px;
     }
@@ -585,7 +1184,7 @@
 
     .mission-item:hover {
         border-color: #001F3F;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 25px rgba(0, 31, 63, 0.08);
         transform: translateX(5px);
     }
 
@@ -650,7 +1249,7 @@
 
     /* Facts Card */
     .facts-card {
-        background: linear-gradient(135deg, #001F3F, #1E40AF);
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
         border-radius: 16px;
         padding: 32px;
         color: white;
@@ -843,7 +1442,7 @@
     }
 
     .cta-btn-primary:hover {
-        background: #F3F4F6;
+        background: #f8fafc;
         transform: translateY(-3px);
         box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
     }
@@ -887,7 +1486,9 @@
         .vision-icon,
         .mission-icon,
         .history-icon,
-        .program-icon {
+        .program-icon,
+        .music-icon,
+        .members-icon {
             width: 48px;
             height: 48px;
             font-size: 20px;
@@ -900,6 +1501,20 @@
 
         .vision-quote {
             font-size: 32px;
+        }
+
+        .video-container {
+            margin: 12px;
+        }
+
+        .video-info {
+            padding: 12px 16px 16px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .member-photo {
+            height: 180px;
         }
 
         .cta-title {
@@ -915,10 +1530,20 @@
             padding: 12px 24px;
             font-size: 16px;
         }
+
+        .stats-card {
+            min-width: 100px;
+            padding: 16px;
+        }
+
+        .stats-number {
+            font-size: 28px;
+        }
     }
 
     @media (max-width: 640px) {
-        .grid-cols-3 {
+        .grid-cols-3,
+        .grid-cols-4 {
             grid-template-columns: 1fr;
         }
 
@@ -934,7 +1559,9 @@
         .vision-icon,
         .mission-icon,
         .history-icon,
-        .program-icon {
+        .program-icon,
+        .music-icon,
+        .members-icon {
             margin-right: 0;
             margin-bottom: 16px;
         }
@@ -947,6 +1574,21 @@
         .mission-number {
             margin-right: 0;
             margin-bottom: 12px;
+        }
+
+        .music-note {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .stats-card {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .members-cta-btn {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>
