@@ -382,7 +382,7 @@
                 </div>
 <div class="flex items-center">
     <!-- Desktop & Tablet Landscape: Tombol muncul -->
-    <div class="hidden lg:flex items-center">
+    <div class="hidden lg:flex items-center">asdsa
         <a href="{{ route('kader.register') }}" class="px-4 py-2 bg-red-600 hover:bg-blue-700 rounded-md text-white font-medium text-sm transition duration-300">
             <i class="fas fa-user-plus mr-2"></i>Daftar Kader
         </a>
