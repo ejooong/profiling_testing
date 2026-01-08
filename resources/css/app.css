@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.nasdem-gradient {
+    background: linear-gradient(135deg, #001F3F 0%, #0a2f5a 100%);
+}
+
+.swiper-slide {
+    height: 500px;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .swiper-slide {
+        height: 400px;
+    }
+}

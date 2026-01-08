@@ -1,0 +1,191 @@
+@extends('layouts.front')
+
+@section('title', 'Beranda - NasDem Bojonegoro')
+
+@section('content')
+<!-- Hero Section dengan Slider -->
+<section class="relative overflow-hidden">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            @foreach($headlineNews as $index => $news)
+            <div class="swiper-slide relative">
+                @if($news->featured_image)
+                <img src="{{ asset('storage/' . $news->featured_image) }}" 
+                     alt="{{ $news->title }}" class="w-full h-full object-cover">
+                @else
+                <div class="w-full h-full bg-gray-200"></div>
+                @endif
+                <div class="absolute inset-0 bg-gradient-to-r from-[#001F3F]/80 to-transparent flex items-center">
+                    <div class="px-4 sm:px-6 lg:px-8 w-full">   
+                        <div class="max-w-3xl">
+                            <span class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full mb-4 inline-block">
+                                {{ $news->category->name }}
+                            </span>
+                            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">{{ $news->title }}</h1>
+                            <p class="text-gray-200 text-lg mb-6">{{ Str::limit($news->excerpt, 150) }}</p>
+                            <a href="{{ route('news.show', $news->slug) }}" 
+                               class="inline-flex items-center bg-white text-[#001F3F] font-bold px-6 py-3 rounded-md hover:bg-gray-100 transition duration-300">
+                                Baca Selengkapnya <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next text-white bg-[#001F3F]/70 hover:bg-[#001F3F] p-4 rounded-full"></div>
+        <div class="swiper-button-prev text-white bg-[#001F3F]/70 hover:bg-[#001F3F] p-4 rounded-full"></div>
+        
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<!-- Konten Utama -->
+<main class="py-12">
+    <div class="px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Card Berita Terbaru -->
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Berita Terbaru</h2>
+                @foreach($latestNews as $news)
+                <div class="border-b pb-4 mb-4 last:border-0 last:pb-0 last:mb-0">
+                    <span class="text-sm text-gray-500">{{ $news->published_at->format('d M Y') }}</span>
+                    <h3 class="text-xl font-semibold mt-1">
+                        <a href="{{ route('news.show', $news->slug) }}" class="text-gray-900 hover:text-nasdem-red">
+                            {{ $news->title }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-600 mt-2">{{ Str::limit($news->excerpt, 100) }}</p>
+                </div>
+                @endforeach
+                <a href="{{ route('news.index') }}" class="inline-block mt-4 text-nasdem-red font-medium hover:underline">
+                    Lihat semua berita →
+                </a>
+            </div>
+
+            <!-- Sidebar -->
+            <div>
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">Cek Keanggotaan</h3>
+                    <p class="text-sm text-gray-600 mb-3">Masukkan NIK untuk mengecek status keanggotaan Anda.</p>
+                    <form action="{{ route('membership.check') }}" method="GET">
+                        <input type="text" name="nik" placeholder="16 digit NIK" 
+                               class="w-full px-3 py-2 border rounded-md mb-2 text-sm" maxlength="16">
+                        <button type="submit" class="w-full bg-nasdem-red text-white py-2 rounded-md font-medium">
+                            Cek Status
+                        </button>
+                    </form>
+                </div>
+
+                <div class="bg-white border rounded-lg p-4">
+                    <h3 class="font-bold text-gray-800 mb-3">Statistik</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Kader Terdaftar</span>
+                            <span class="font-medium">{{ number_format($stats['total_kader']) }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">DPC</span>
+                            <span class="font-medium">{{ $stats['total_dpc'] }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">DPRT</span>
+                            <span class="font-medium">{{ $stats['total_dprt'] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-nasdem-blue to-blue-700 text-white rounded-xl p-8 mb-8">
+            <div class="max-w-3xl">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">Menuju Bojonegoro Maju, Adil, dan Sejahtera</h1>
+                <p class="text-lg opacity-90 mb-6">
+                    Bersama Rakyat, NasDem Berkomitmen Membangun Desa, Kecamatan, dan Kabupaten yang Mandiri.
+                </p>
+                <a href="{{ route('profile') }}" 
+                   class="inline-block bg-white text-nasdem-red font-bold px-6 py-3 rounded-md hover:bg-gray-100">
+                    Selengkapnya →
+                </a>
+            </div>
+        </div>
+
+        <!-- Grid Berita -->
+        <div class="mt-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-[#001F3F]">Berita Lainnya</h2>
+                <a href="{{ route('news.index') }}" class="text-red-600 font-medium hover:underline">
+                    Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($latestNews as $news)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden news-card">
+                    <div class="relative">
+                        @if($news->featured_image)
+                        <img src="{{ asset('storage/' . $news->featured_image) }}" 
+                             alt="{{ $news->title }}" class="w-full h-48 object-cover">
+                        @else
+                        <div class="w-full h-48 bg-gray-200"></div>
+                        @endif
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                                {{ $news->category->name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center text-gray-500 text-sm mb-3">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            <span>{{ $news->published_at->format('d M Y') }}</span>
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-eye mr-2"></i>
+                            <span>{{ $news->views }}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-[#001F3F] mb-3 hover:text-red-600 transition duration-300">
+                            <a href="{{ route('news.show', $news->slug) }}">{{ Str::limit($news->title, 60) }}</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">{{ Str::limit($news->excerpt, 100) }}</p>
+                        <a href="{{ route('news.show', $news->slug) }}" 
+                           class="text-red-600 font-medium text-sm hover:underline inline-flex items-center">
+                            Baca Selengkapnya <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</main>
+
+@push('scripts')
+<script>
+    // Inisialisasi Swiper
+    const swiper = new Swiper('.mySwiper', {
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        speed: 800,
+        effect: 'fade',
+        fadeEffect: {
+            crossFade: true
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+@endpush
+@endsection

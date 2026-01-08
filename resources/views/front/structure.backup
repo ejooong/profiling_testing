@@ -1,0 +1,1493 @@
+@extends('layouts.front')
+
+@section('title', 'Struktur Organisasi - Partai NasDem Kabupaten Bojonegoro')
+
+@section('content')
+
+
+<!-- Hero Section with Particles Animation -->
+<section class="nasdem-gradient py-16 md:py-20 full-width relative overflow-hidden">
+    <!-- Animated Background Particles -->
+    <div class="absolute inset-0">
+        <div class="particles">
+            @for ($i = 0; $i < 20; $i++)
+                <div class="particle" style="
+                    --size: {{ rand(2, 6) }}px;
+                    --x: {{ rand(0, 100) }}%;
+                    --y: {{ rand(0, 100) }}%;
+                    --duration: {{ rand(10, 30) }}s;
+                    --delay: {{ rand(0, 10) }}s;
+                ">
+        </div>
+        @endfor
+    </div>
+    </div>
+
+    <div class="px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
+        <div class="text-center max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 fade-in-up">Struktur Organisasi</h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-8 fade-in-up animation-delay-100">Kepengurusan Partai NasDem Kabupaten Bojonegoro</p>
+
+            <!-- Stats Overview -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8 fade-in-up animation-delay-200">
+                <div class="stats-overview-item bg-blue-500/20 border-blue-500/30">
+                    <span class="stats-number"> {{ isset($dpdStructures) ? count($dpdStructures) : 0 }}</span>
+                    <span class="stats-label">Pengurus DPD</span>
+                </div>
+                <div class="stats-overview-item bg-green-500/20 border-green-500/30">
+                    <span class="stats-number">{{ $dpcs->count() }}</span>
+                    <span class="stats-label">DPC Kecamatan</span>
+                </div>
+                <div class="stats-overview-item bg-purple-500/20 border-purple-500/30">
+                    <span class="stats-number">{{ $dprts->count() }}</span>
+                    <span class="stats-label">DPRT Desa/Kelurahan</span>
+                </div>
+                <div class="stats-overview-item bg-yellow-500/20 border-yellow-500/30">
+                    <span class="stats-number">{{ $dpcs->count() + $dprts->count() + ($dpd ? ($dpd->structures ? $dpd->structures->count() : 0) : 0) }}</span>
+                    <span class="stats-label">Total Pengurus</span>
+                </div>
+            </div>
+
+            <!-- Animated CTA Button -->
+            <div class="fade-in-up animation-delay-300">
+                <a href="#dpd-structure" class="inline-flex items-center bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition duration-300 shadow-lg hover:shadow-xl border border-white/20">
+                    <i class="fas fa-sitemap mr-3"></i>Lihat Struktur Lengkap
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="full-width bg-gray-50">
+    <div class="container mx-auto px-4 py-12">
+        
+        <!-- DPD Structure -->
+        @if($dpd && $dpd->structures && $dpd->structures->count() > 0)
+        <section id="dpd-structure" class="py-16 bg-white full-width fade-in-up">
+            <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+                <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
+                    <div class="text-center mb-12">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#001F3F]/10 mb-6">
+                            <i class="fas fa-building text-[#001F3F] text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">Dewan Pimpinan Daerah</h2>
+                        <p class="text-gray-600 text-lg">Pengurus DPD Partai NasDem Kabupaten Bojonegoro Periode 2023-2028</p>
+                    </div>
+
+                    
+                    <!-- Leadership Team (Ketua, Sekretaris, Bendahara) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        @php
+                        // Helper function untuk mendapatkan URL foto
+                        function getStructurePhotoUrl($photoPath) {
+                        if (!$photoPath) return null;
+                        return asset('storage/' . $photoPath);
+                        }
+
+                        // Cari ketua, sekretaris, bendahara dengan kriteria yang lebih spesifik
+                        $ketua = null;
+                        $sekretaris = null;
+                        $bendahara = null;
+
+                        foreach ($dpdStructures as $item) {
+                        $positionName = strtolower($item->position->name ?? '');
+                        $positionCode = $item->position->code ?? '';
+
+                        // Cari berdasarkan CODE untuk keakuratan maksimal
+                        if ($positionCode === 'DPD-KETUA' && !$ketua) {
+                        $ketua = $item;
+                        }
+                        elseif ($positionCode === 'DPD-SEKRETARIS' && !$sekretaris) {
+                        $sekretaris = $item;
+                        }
+                        elseif ($positionCode === 'DPD-BENDAHARA' && !$bendahara) {
+                        $bendahara = $item;
+                        }
+                        // Fallback: cari berdasarkan nama jika code tidak ditemukan
+                        elseif (strpos($positionName, 'ketua') !== false &&
+                        strpos($positionName, 'wakil') === false &&
+                        !$ketua) {
+                        // Pastikan bukan "Wakil Ketua"
+                        $ketua = $item;
+                        }
+                        elseif (strpos($positionName, 'sekretaris') !== false &&
+                        strpos($positionName, 'wakil') === false &&
+                        !$sekretaris) {
+                        // Pastikan bukan "Wakil Sekretaris"
+                        $sekretaris = $item;
+                        }
+                        elseif (strpos($positionName, 'bendahara') !== false &&
+                        strpos($positionName, 'wakil') === false &&
+                        !$bendahara) {
+                        // Pastikan bukan "Wakil Bendahara"
+                        $bendahara = $item;
+                        }
+                        }
+
+                        $leadership = collect([$sekretaris, $ketua, $bendahara])->filter();
+                        @endphp
+
+                        @foreach($leadership as $index => $leader)
+                        @if($leader)
+                        <div class="structure-card fade-in-up animation-delay-{{ $index * 100 }}">
+                            <div class="structure-image-container">
+                                @if($leader->person_photo)
+                                @php
+                                $photoUrl = getStructurePhotoUrl($leader->person_photo);
+                                @endphp
+
+                                @if($photoUrl)
+                                <img src="{{ $photoUrl }}"
+                                    alt="{{ $leader->person_name }}"
+                                    class="structure-image"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                @endif
+                                @endif
+
+                                <!-- Fallback avatar -->
+                                <div class="structure-avatar" style="{{ ($leader->person_photo && isset($photoUrl)) ? 'display: none;' : '' }}">
+                                    @if($leader->position && stripos($leader->position->name, 'ketua') !== false)
+                                    <i class="fas fa-crown text-3xl"></i>
+                                    @elseif($leader->position && stripos($leader->position->name, 'sekretaris' ) !== false)
+                                    <i class="fas fa-file-alt text-3xl"></i>
+                                    @elseif($leader->position && stripos($leader->position->name, 'bendahara') !== false)
+                                    <i class="fas fa-chart-pie text-3xl"></i>
+                                    @else
+                                    <i class="fas fa-user-tie text-3xl"></i>
+                                    @endif
+                                </div>
+
+                                @if($leader->position && stripos($leader->position->name, 'ketua') !== false)
+                                <div class="structure-badge">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                @endif
+                            </div>
+
+                            <h3 class="structure-name">{{ $leader->person_name }}</h3>
+                            <p class="structure-position">
+                                {{ $leader->position->name ?? 'Posisi' }}
+                            </p>
+
+                            @if($leader->external_phone || $leader->external_email)
+                            <div class="structure-contact">
+                                @if($leader->external_phone)
+                                <a href="https://wa.me/{{ $leader->external_phone }}" target="_blank"
+                                    class="contact-btn whatsapp"
+                                    title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                @endif
+
+                                @if($leader->external_email)
+                                <a href="mailto:{{ $leader->external_email }}"
+                                    class="contact-btn email"
+                                    title="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                @endif
+
+                                @if($leader->external_phone)
+                                <a href="tel:{{ $leader->external_phone }}"
+                                    class="contact-btn phone"
+                                    title="Telepon">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                                @endif
+                            </div>
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                    </div>
+
+
+
+
+
+
+                    <!-- Other Members -->
+                    @php
+                    $otherMembers = collect($dpdStructures)->filter(function($item) use ($ketua, $sekretaris, $bendahara) {
+                    return $item !== $ketua && $item !== $sekretaris && $item !== $bendahara;
+                    });
+
+                    $perPage = 8;
+                    $currentPage = request()->get('page', 1);
+                    $paginatedMembers = $otherMembers->slice(($currentPage - 1) * $perPage, $perPage);
+                    $totalPages = ceil($otherMembers->count() / $perPage);
+                    @endphp
+
+                    @if($otherMembers->count() > 0)
+                    <div class="mt-16 pt-16 border-t border-gray-200 fade-in-up">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold text-[#001F3F] mb-4">Anggota Pengurus DPD</h3>
+                            <p class="text-gray-600">Seluruh pengurus yang bertugas di DPD Kabupaten Bojonegoro</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            @foreach($paginatedMembers as $member)
+                            <div class="member-card fade-in-up animation-delay-{{ $loop->index * 50 }}">
+                                <div class="member-image-container">
+                                    @if($member->person_photo)
+                                    @php
+                                    $memberPhotoUrl = getStructurePhotoUrl($member->person_photo);
+                                    @endphp
+
+                                    @if($memberPhotoUrl)
+                                    <img src="{{ $memberPhotoUrl }}"
+                                        alt="{{ $member->person_name }}"
+                                        class="member-image"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    @endif
+
+                                    <div class="member-avatar" style="{{ ($member->person_photo && isset($memberPhotoUrl)) ? 'display: none;' : '' }}">
+                                        <i class="fas fa-user text-xl"></i>
+                                    </div>
+                                    @else
+                                    <div class="member-avatar">
+                                        <i class="fas fa-user text-xl"></i>
+                                    </div>
+                                    @endif
+                                </div>
+
+                                <h4 class="member-name">{{ $member->person_name }}</h4>
+                                <p class="member-position">{{ $member->position_name ?? ($member->position->name ?? 'Posisi') }}</p>
+
+                                @if($member->phone || $member->external_phone)
+                                @php
+                                $phoneNumber = $member->phone ?? $member->external_phone;
+                                @endphp
+                                <div class="member-contact">
+                                    <a href="https://wa.me/{{ $phoneNumber }}" target="_blank"
+                                        class="contact-btn small whatsapp"
+                                        title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="tel:{{ $phoneNumber }}"
+                                        class="contact-btn small phone"
+                                        title="Telepon">
+                                        <i class="fas fa-phone"></i>
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Pagination -->
+                        @if($totalPages > 1)
+                        <div class="mt-12 fade-in-up">
+                            <div class="custom-pagination">
+                                @if($currentPage > 1)
+                                <a href="?page={{ $currentPage - 1 }}" class="pagination-btn prev">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                @endif
+
+                                @for($i = 1; $i <= $totalPages; $i++)
+                                    @if($i==$currentPage)
+                                    <span class="pagination-btn active">{{ $i }}</span>
+                                    @else
+                                    <a href="?page={{ $i }}" class="pagination-btn">{{ $i }}</a>
+                                    @endif
+                                    @endfor
+
+                                    @if($currentPage < $totalPages)
+                                        <a href="?page={{ $currentPage + 1 }}" class="pagination-btn next">
+                                        <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                        @endif
+                            </div>
+
+                            <div class="text-center mt-4 text-sm text-gray-600">
+                                Menampilkan {{ $paginatedMembers->count() }} dari {{ $otherMembers->count() }} anggota
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+                </div> {{-- Ini mungkin perlu ditutup, atau sudah ada di atas --}}
+            </div>
+    </div>
+    </section>
+    @endif {{-- Ini untuk menutup @if($dpd && $dpd->structures && $dpd->structures->count() > 0) --}}
+
+    <!-- DPC Structures -->
+    @if($dpcs->count() > 0)
+    <section class="py-16 bg-gray-100 full-width fade-in-up animation-delay-100">
+        <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 full-width">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-6">
+                        <i class="fas fa-map-marker-alt text-blue-600 text-3xl"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">Dewan Pimpinan Cabang</h2>
+                    <p class="text-gray-600 text-lg">Kepengurusan DPC Partai NasDem di seluruh kecamatan se-Kabupaten Bojonegoro</p>
+                </div>
+
+                @php
+                // Format ulang data DPC untuk view
+                $formattedDpcs = [];
+                foreach ($dpcs as $dpc) {
+                $structures = isset($dpcStructures[$dpc->id]) ? $dpcStructures[$dpc->id] : collect();
+
+                // Cari ketua DPC dari structures
+                $dpcKetua = null;
+                if ($structures->count() > 0) {
+                $dpcKetua = $structures->first(function($item) {
+                $positionName = strtolower($item->position->name ?? ($item->position_name ?? ''));
+                return strpos($positionName, 'ketua') !== false &&
+                strpos($positionName, 'wakil') === false;
+                });
+
+                // Jika tidak ketemu, cari yang pertama
+                if (!$dpcKetua) {
+                $dpcKetua = $structures->first();
+                }
+                }
+
+                $formattedDpcs[] = (object)[
+                'id' => $dpc->id,
+                'kecamatan_name' => $dpc->kecamatan_name,
+                'address' => $dpc->address,
+                'ketua' => $dpcKetua ? (object)[
+                'person_name' => $dpcKetua->external_name ?? ($dpcKetua->kader->name ?? 'Tidak Diketahui'),
+                'position_name' => $dpcKetua->position->name ?? ($dpcKetua->position_name ?? 'Ketua DPC'),
+                'photo' => $dpcKetua->external_photo ?? ($dpcKetua->kader->photo ?? null),
+                'phone' => $dpcKetua->external_phone ?? ($dpcKetua->kader->phone ?? null),
+                'email' => $dpcKetua->external_email ?? ($dpcKetua->kader->email ?? null)
+                ] : null
+                ];
+                }
+
+                $perPageDPC = 8;
+                $currentPageDPC = request()->get('page_dpc', 1);
+                $paginatedDPCs = collect($formattedDpcs)->slice(($currentPageDPC - 1) * $perPageDPC, $perPageDPC);
+                $totalPagesDPC = ceil(count($formattedDpcs) / $perPageDPC);
+                @endphp
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($paginatedDPCs as $dpc)
+                    <div class="dpc-card fade-in-up animation-delay-{{ $loop->index * 50 }}">
+                        <!-- Kecamatan Badge -->
+                        <div class="dpc-badge">
+                            {{ $dpc->kecamatan_name }}
+                        </div>
+
+                        @if($dpc->ketua)
+                        <div class="dpc-image-container">
+                            @if($dpc->ketua->photo)
+                            @php
+                            $dpcPhotoUrl = getStructurePhotoUrl($dpc->ketua->photo);
+                            @endphp
+
+                            @if($dpcPhotoUrl)
+                            <img src="{{ $dpcPhotoUrl }}"
+                                alt="{{ $dpc->ketua->person_name }}"
+                                class="dpc-image"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            @endif
+
+                            <div class="dpc-avatar" style="{{ ($dpc->ketua->photo && isset($dpcPhotoUrl)) ? 'display: none;' : '' }}">
+                                <i class="fas fa-user-tie text-xl"></i>
+                            </div>
+                            @else
+                            <div class="dpc-avatar">
+                                <i class="fas fa-user-tie text-xl"></i>
+                            </div>
+                            @endif
+                        </div>
+
+                        <h4 class="dpc-name">{{ $dpc->ketua->person_name }}</h4>
+                        <p class="dpc-position">{{ $dpc->ketua->position_name }}</p>
+
+                        @if($dpc->ketua->phone)
+                        <div class="dpc-contact">
+                            <a href="https://wa.me/{{ $dpc->ketua->phone }}" target="_blank"
+                                class="contact-btn small whatsapp"
+                                title="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="tel:{{ $dpc->ketua->phone }}"
+                                class="contact-btn small phone"
+                                title="Telepon">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                        @endif
+                        @else
+                        <div class="dpc-image-placeholder">
+                            <i class="fas fa-users text-2xl"></i>
+                        </div>
+                        <h4 class="dpc-name">Ketua DPC</h4>
+                        <p class="dpc-position">Dalam proses pengisian</p>
+                        @endif
+
+                        <!-- Address -->
+                        @if($dpc->address)
+                        <div class="dpc-address">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            {{ Str::limit($dpc->address, 60) }}
+                        </div>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+
+                <!-- DPC Pagination -->
+                @if($totalPagesDPC > 1)
+                <div class="mt-12 fade-in-up">
+                    <div class="custom-pagination">
+                        @if($currentPageDPC > 1)
+                        <a href="?page_dpc={{ $currentPageDPC - 1 }}" class="pagination-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        @endif
+
+                        @for($i = 1; $i <= $totalPagesDPC; $i++)
+                            @if($i==$currentPageDPC)
+                            <span class="pagination-btn active">{{ $i }}</span>
+                            @else
+                            <a href="?page_dpc={{ $i }}" class="pagination-btn">{{ $i }}</a>
+                            @endif
+                            @endfor
+
+                            @if($currentPageDPC < $totalPagesDPC)
+                                <a href="?page_dpc={{ $currentPageDPC + 1 }}" class="pagination-btn next">
+                                <i class="fas fa-chevron-right"></i>
+                                </a>
+                                @endif
+                    </div>
+
+                    <div class="text-center mt-4 text-sm text-gray-600">
+                        Menampilkan {{ $paginatedDPCs->count() }} dari {{ count($formattedDpcs) }} DPC
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- DPRT Structures -->
+    @if($dprts->count() > 0)
+    <section class="py-16 bg-white full-width fade-in-up animation-delay-200">
+        <div class="px-4 sm:px-6 lg:px-8 mx-auto">
+            <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-6">
+                        <i class="fas fa-home text-green-600 text-3xl"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">Dewan Pimpinan Ranting</h2>
+                    <p class="text-gray-600 text-lg">Kepengurusan DPRT Partai NasDem di seluruh desa dan kelurahan se-Kabupaten Bojonegoro</p>
+                </div>
+
+                @php
+                // Format ulang data DPRT untuk view
+                $formattedDprts = [];
+                foreach ($dprts as $dprt) {
+                $structures = isset($dprtStructures[$dprt->id]) ? $dprtStructures[$dprt->id] : collect();
+
+                // Cari ketua DPRT dari structures
+                $dprtKetua = null;
+                if ($structures->count() > 0) {
+                $dprtKetua = $structures->first(function($item) {
+                $positionName = strtolower($item->position->name ?? ($item->position_name ?? ''));
+                return strpos($positionName, 'ketua') !== false &&
+                strpos($positionName, 'wakil') === false;
+                });
+
+                // Jika tidak ketemu, cari yang pertama
+                if (!$dprtKetua) {
+                $dprtKetua = $structures->first();
+                }
+                }
+
+                $formattedDprts[] = (object)[
+                'id' => $dprt->id,
+                'desa_name' => $dprt->desa_name,
+                'dpc' => $dprt->dpc ? (object)[
+                'id' => $dprt->dpc->id,
+                'kecamatan_name' => $dprt->dpc->kecamatan_name
+                ] : null,
+                'ketua' => $dprtKetua ? (object)[
+                'person_name' => $dprtKetua->external_name ?? ($dprtKetua->kader->name ?? 'Tidak Diketahui'),
+                'position_name' => $dprtKetua->position->name ?? ($dprtKetua->position_name ?? 'Ketua DPRT'),
+                'photo' => $dprtKetua->external_photo ?? ($dprtKetua->kader->photo ?? null),
+                'phone' => $dprtKetua->external_phone ?? ($dprtKetua->kader->phone ?? null),
+                'email' => $dprtKetua->external_email ?? ($dprtKetua->kader->email ?? null)
+                ] : null
+                ];
+                }
+
+                $perPageDPRT = 8;
+                $currentPageDPRT = request()->get('page_dprt', 1);
+                $paginatedDPRTs = collect($formattedDprts)->slice(($currentPageDPRT - 1) * $perPageDPRT, $perPageDPRT);
+                $totalPagesDPRT = ceil(count($formattedDprts) / $perPageDPRT);
+                @endphp
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($paginatedDPRTs as $dprt)
+                    <div class="dprt-card fade-in-up animation-delay-{{ $loop->index * 50 }}">
+                        <!-- Desa/Kecamatan Info -->
+                        <div class="dprt-header">
+                            <div class="dprt-badge">
+                                {{ $dprt->desa_name }}
+                            </div>
+                            <p class="dprt-location">{{ $dprt->dpc->kecamatan_name ?? 'Kecamatan' }}</p>
+                        </div>
+
+                        @if($dprt->ketua)
+                        <div class="dprt-image-container">
+                            @if($dprt->ketua->photo)
+                            @php
+                            $dprtPhotoUrl = getStructurePhotoUrl($dprt->ketua->photo);
+                            @endphp
+
+                            @if($dprtPhotoUrl)
+                            <img src="{{ $dprtPhotoUrl }}"
+                                alt="{{ $dprt->ketua->person_name }}"
+                                class="dprt-image"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            @endif
+
+                            <div class="dprt-avatar" style="{{ ($dprt->ketua->photo && isset($dprtPhotoUrl)) ? 'display: none;' : '' }}">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                            @else
+                            <div class="dprt-avatar">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                            @endif
+                        </div>
+
+                        <h4 class="dprt-name">{{ $dprt->ketua->person_name }}</h4>
+                        <p class="dprt-position">{{ $dprt->ketua->position_name }}</p>
+
+                        @if($dprt->ketua->phone)
+                        <div class="dprt-contact">
+                            <a href="https://wa.me/{{ $dprt->ketua->phone }}" target="_blank"
+                                class="contact-btn mini whatsapp"
+                                title="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="tel:{{ $dprt->ketua->phone }}"
+                                class="contact-btn mini phone"
+                                title="Telepon">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                        @endif
+                        @else
+                        <div class="dprt-image-placeholder">
+                            <i class="fas fa-users text-xl"></i>
+                        </div>
+                        <h4 class="dprt-name">Ketua DPRT</h4>
+                        <p class="dprt-position">Dalam proses pengisian</p>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+
+                <!-- DPRT Pagination -->
+                @if($totalPagesDPRT > 1)
+                <div class="mt-12 fade-in-up">
+                    <div class="custom-pagination">
+                        @if($currentPageDPRT > 1)
+                        <a href="?page_dprt={{ $currentPageDPRT - 1 }}" class="pagination-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        @endif
+
+                        @for($i = 1; $i <= $totalPagesDPRT; $i++)
+                            @if($i==$currentPageDPRT)
+                            <span class="pagination-btn active">{{ $i }}</span>
+                            @else
+                            <a href="?page_dprt={{ $i }}" class="pagination-btn">{{ $i }}</a>
+                            @endif
+                            @endfor
+
+                            @if($currentPageDPRT < $totalPagesDPRT)
+                                <a href="?page_dprt={{ $currentPageDPRT + 1 }}" class="pagination-btn next">
+                                <i class="fas fa-chevron-right"></i>
+                                </a>
+                                @endif
+                    </div>
+
+                    <div class="text-center mt-4 text-sm text-gray-600">
+                        Menampilkan {{ $paginatedDPRTs->count() }} dari {{ count($formattedDprts) }} DPRT
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- Empty State -->
+    @if(!$dpd && $dpcs->count() == 0 && $dprts->count() == 0)
+    <section class="py-20 fade-in-up">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8 bounce-in">
+                <i class="fas fa-sitemap text-gray-400 text-6xl"></i>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">Struktur Organisasi</h3>
+            <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+                Data struktur organisasi Partai NasDem Kabupaten Bojonegoro sedang dalam proses pengembangan dan akan segera tersedia.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ route('home') }}" class="cta-btn primary">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Beranda
+                </a>
+                <a href="{{ route('contact') }}" class="cta-btn secondary">
+                    <i class="fas fa-envelope mr-2"></i>Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-[#001F3F] via-blue-800 to-blue-900 full-width fade-in-up">
+        <div class="px-4 sm:px-6 lg:px-8 mx-auto text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-6">
+                <i class="fas fa-users text-white text-3xl"></i>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Bergabung Menjadi Pengurus</h2>
+            <p class="text-xl md:text-2xl text-gray-200 mb-10">Jadilah bagian dari kepengurusan Partai NasDem Bojonegoro dan berkontribusi untuk kemajuan daerah.</p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="{{ route('kader.register') }}" class="cta-btn-light">
+                    <i class="fas fa-user-plus mr-4"></i>Daftar Sekarang
+                </a>
+                <a href="{{ route('contact') }}" class="cta-btn-dark">
+                    <i class="fas fa-envelope mr-4"></i>Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </section>
+    </div>
+</main>
+@endsection
+
+@push('scripts')
+<script>
+    // Initialize animations on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const fadeElements = document.querySelectorAll('.fade-in-up');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(el => observer.observe(el));
+    });
+
+    // Contact button hover effect
+    const contactBtns = document.querySelectorAll('.contact-btn');
+    contactBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+        });
+
+        btn.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Card hover effects
+    const structureCards = document.querySelectorAll('.structure-card, .member-card, .dpc-card, .dprt-card');
+    structureCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+</script>
+@endpush
+
+@push('styles')
+<style>
+    /* Hero Section Particles - Sama seperti contact page */
+    .particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: var(--size);
+        height: var(--size);
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: float var(--duration) linear infinite var(--delay);
+        left: var(--x);
+        top: var(--y);
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-100vh) translateX(20px);
+            opacity: 0;
+        }
+    }
+
+    /* Animations */
+    @keyframes bounce-in {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        70% {
+            transform: scale(0.9);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .bounce-in {
+        animation: bounce-in 0.6s ease-out forwards;
+    }
+
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-up.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .animation-delay-100 {
+        transition-delay: 0.1s;
+    }
+
+    .animation-delay-200 {
+        transition-delay: 0.2s;
+    }
+
+    .animation-delay-300 {
+        transition-delay: 0.3s;
+    }
+
+    /* Stats Overview */
+    .stats-overview-item {
+        backdrop-filter: blur(10px);
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: 2px solid;
+        min-width: 140px;
+        transition: all 0.3s ease;
+    }
+
+    .stats-overview-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-number {
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        color: white;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .stats-label {
+        display: block;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+    }
+
+    /* Structure Cards */
+    .structure-card {
+        background: white;
+        border-radius: 20px;
+        padding: 32px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .structure-card:hover {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        transform: translateY(-8px);
+    }
+
+    .structure-image-container {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        margin: 0 auto 24px;
+    }
+
+    .structure-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        /* Tetap cover untuk foto pimpinan utama */
+        object-position: center top;
+        /* Fokus ke bagian atas (wajah) */
+        border: 6px solid white;
+        box-shadow: 0 10px 30px rgba(0, 31, 63, 0.2);
+    }
+
+
+    .structure-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #001F3F, #0a2f5a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border: 6px solid white;
+        box-shadow: 0 10px 30px rgba(0, 31, 63, 0.2);
+    }
+
+    .structure-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-size: 14px;
+        border: 3px solid white;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .structure-name {
+        font-size: 24px;
+        font-weight: bold;
+        color: #001F3F;
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    .structure-position {
+        color: #001F3F;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 20px;
+        padding: 8px 16px;
+        background: rgba(0, 31, 63, 0.05);
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    /* Contact Buttons */
+    .structure-contact {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-btn.whatsapp {
+        background: #25D366;
+    }
+
+    .contact-btn.email {
+        background: #EA4335;
+    }
+
+    .contact-btn.phone {
+        background: #4285F4;
+    }
+
+    .contact-btn.small {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .contact-btn.mini {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    /* Member Cards */
+    .member-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .member-card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-8px);
+        border-color: rgba(0, 31, 63, 0.2);
+    }
+
+    .member-image-container {
+        width: 128px;
+        height: 128px;
+        margin: 0 auto 16px;
+    }
+
+    .member-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        border: 4px solid white;
+        box-shadow: 0 6px 20px rgba(0, 31, 63, 0.15);
+    }
+
+
+    .member-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #E5E7EB, #D1D5DB);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #001F3F;
+        border: 4px solid white;
+        box-shadow: 0 6px 20px rgba(0, 31, 63, 0.15);
+    }
+
+    .member-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #001F3F;
+        margin-bottom: 6px;
+        line-height: 1.2;
+    }
+
+    .member-position {
+        color: #6B7280;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        padding: 4px 12px;
+        background: rgba(0, 31, 63, 0.03);
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    .member-contact {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* DPC Cards */
+    .dpc-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        position: relative;
+    }
+
+    .dpc-card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-8px);
+        border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    .dpc-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #3B82F6, #2563EB);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .dpc-image-container {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 12px;
+        position: relative;
+
+    }
+
+    .dpc-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: contain;
+        /* Ubah dari cover ke contain */
+        object-position: center;
+        border: 4px solid white;
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
+        background: white;
+        /* Background putih jika ada bagian kosong */
+    }
+
+    .dpc-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2563EB;
+        border: 4px solid white;
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
+    }
+
+    .dpc-image-placeholder {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6B7280;
+        border: 4px solid white;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .dpc-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #001F3F;
+        margin-bottom: 4px;
+    }
+
+    .dpc-position {
+        color: #6B7280;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 12px;
+    }
+
+    .dpc-contact {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .dpc-address {
+        font-size: 11px;
+        color: #6B7280;
+        padding-top: 12px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        line-height: 1.4;
+    }
+
+    .dpc-address i {
+        color: #001F3F;
+        font-size: 10px;
+    }
+
+    /* DPRT Cards */
+    .dprt-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .dprt-card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-8px);
+        border-color: rgba(34, 197, 94, 0.2);
+    }
+
+    .dprt-header {
+        margin-bottom: 16px;
+    }
+
+    .dprt-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    .dprt-location {
+        font-size: 11px;
+        color: #6B7280;
+    }
+
+    .dprt-image-container {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 8px;
+    }
+
+    .dprt-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: contain;
+        /* Ubah dari cover ke contain */
+        object-position: center;
+        border: 3px solid white;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+        background: white;
+    }
+
+    .dprt-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #059669;
+        border: 3px solid white;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+    }
+
+    .dprt-image-placeholder {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6B7280;
+        border: 3px solid white;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .dprt-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #001F3F;
+        margin-bottom: 4px;
+    }
+
+    .dprt-position {
+        color: #6B7280;
+        font-size: 11px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .dprt-contact {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    /* CTA Buttons */
+    .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-btn.primary {
+        background: #001F3F;
+        color: white;
+    }
+
+    .cta-btn.primary:hover {
+        background: #0a2f5a;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 31, 63, 0.2);
+    }
+
+    .cta-btn.secondary {
+        background: white;
+        color: #001F3F;
+        border: 2px solid #001F3F;
+    }
+
+    .cta-btn.secondary:hover {
+        background: #F3F4F6;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 31, 63, 0.1);
+    }
+
+    .cta-btn-light {
+        display: inline-flex;
+        align-items: center;
+        padding: 16px 32px;
+        background: white;
+        color: #001F3F;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-btn-light:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        background: #F3F4F6;
+    }
+
+    .cta-btn-dark {
+        display: inline-flex;
+        align-items: center;
+        padding: 16px 32px;
+        background: #001F3F;
+        color: white;
+        border: 2px solid white;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-btn-dark:hover {
+        background: #0a2f5a;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Pagination */
+    .custom-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .pagination-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        border-radius: 10px;
+        background: white;
+        color: #4B5563;
+        border: 2px solid #E5E7EB;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .pagination-btn:hover:not(.active) {
+        border-color: #001F3F;
+        color: #001F3F;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .pagination-btn.active {
+        background: #001F3F;
+        color: white;
+        border-color: #001F3F;
+        box-shadow: 0 5px 15px rgba(0, 31, 63, 0.2);
+    }
+
+    .pagination-btn.prev,
+    .pagination-btn.next {
+        font-size: 12px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+
+        .stats-overview-item {
+
+            padding: 10px 16px;
+            min-width: 120px;
+
+        }
+
+        .stats-number {
+            font-size: 24px;
+        }
+
+        .stats-label {
+            font-size: 12px;
+        }
+
+        .structure-image-container {
+            width: 120px;
+            height: 120px;
+        }
+
+        .member-image-container {
+            width: 100px;
+            height: 100px;
+        }
+
+        .dpc-image-container {
+            width: 80px;
+            height: 80px;
+        }
+
+        .dprt-image-container {
+            width: 60px;
+            height: 60px;
+        }
+
+        .cta-btn-light,
+        .cta-btn-dark {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .grid-cols-4 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stats-overview-item {
+            min-width: 100px;
+            padding: 8px 12px;
+        }
+
+        .custom-pagination {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+@endpush
