@@ -18,7 +18,7 @@
             ">
         </div>
         @endfor
-    </div>
+        </div>
     </div>
 
     <div class="px-4 sm:px-6 lg:px-8 mx-auto relative z-10">

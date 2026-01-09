@@ -140,98 +140,155 @@
 <main class="py-6 bg-gradient-to-r from-[#E69D00] to-[#E69D00]">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Latest News Section -->
-            <div class="lg:col-span-2">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-2">Berita Terbaru</h2>
-                        <p class="text-gray-600">Informasi terkini dari Partai NasDem Bojonegoro</p>
-                    </div>
-                    <a href="{{ route('news.index') }}" class="section-cta-btn">
-                        Lihat Semua <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                </div>
+           <!-- Latest News Section -->
+<div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
+        <div class="mb-6 sm:mb-0">
+            <div class="inline-flex items-center px-4 py-2 bg-nasdem-red/10 dark:bg-nasdem-red/20 rounded-full mb-4">
+                <span class="w-2 h-2 bg-nasdem-red rounded-full mr-2 animate-pulse"></span>
+                <span class="text-nasdem-red dark:text-red-400 font-semibold text-sm uppercase tracking-wider">UPDATE TERBARU</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">Berita Terkini</h2>
+            <p class="text-gray-600 dark:text-gray-300 text-lg">Informasi terkini dari Partai NasDem Bojonegoro</p>
+        </div>
+        <a href="{{ route('news.index') }}" 
+           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-nasdem-navy to-nasdem-blue dark:from-gray-800 dark:to-gray-900 text-white rounded-xl hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group border border-gray-200 dark:border-gray-700">
+            <span class="font-semibold">Lihat Semua</span>
+            <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-2 transition-transform duration-300"></i>
+        </a>
+    </div>
 
-                <!-- Featured News -->
-                @if($latestNews->isNotEmpty())
-                <div class="mb-12">
-                    <div class="featured-news-card group">
-                        @if($latestNews->first()->featured_image && file_exists(public_path('storage/' . $latestNews->first()->featured_image)))
-                        <div class="featured-news-image">
-                            <img src="{{ asset('storage/' . $latestNews->first()->featured_image) }}"
-                                alt="{{ $latestNews->first()->title }}"
-                                class="group-hover:scale-110">
-                        </div>
-                        @else
-                        <div class="featured-news-image">
-                            <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
-                                <i class="fas fa-newspaper text-white text-6xl opacity-50"></i>
-                            </div>
-                        </div>
-                        @endif
-                        <div class="featured-news-content">
-                            <div class="featured-news-meta">
-                                <span class="featured-news-category" style="background-color: {{ $latestNews->first()->category->color ?? '#001F3F' }}">
-                                    {{ $latestNews->first()->category->name ?? 'Berita' }}
-                                </span>
-                                <div class="flex items-center text-gray-500 text-sm">
-                                    <i class="fas fa-calendar-alt mr-2"></i>
-                                    {{ $latestNews->first()->published_at->format('d F Y') }}
-                                </div>
-                            </div>
-                            <h3 class="featured-news-title">
-                                <a href="{{ route('news.show', $latestNews->first()->slug) }}">{{ $latestNews->first()->title }}</a>
-                            </h3>
-                            <p class="featured-news-excerpt">{{ Str::limit($latestNews->first()->excerpt, 180) }}</p>
-                            <a href="{{ route('news.show', $latestNews->first()->slug) }}" class="featured-news-link">
-                                Baca Artikel Lengkap <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
-                        </div>
+    <!-- Featured News -->
+    @if($latestNews->isNotEmpty())
+    <div class="mb-12 group relative">
+        <div class="bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-500">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                <!-- Featured Image -->
+                <div class="relative overflow-hidden h-64 lg:h-auto min-h-[300px]">
+                    @if($latestNews->first()->featured_image && file_exists(public_path('storage/' . $latestNews->first()->featured_image)))
+                    <img src="{{ asset('storage/' . $latestNews->first()->featured_image) }}"
+                         alt="{{ $latestNews->first()->title }}"
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    @else
+                    <div class="w-full h-full bg-gradient-to-br from-nasdem-navy to-nasdem-blue flex items-center justify-center">
+                        <i class="fas fa-newspaper text-white/30 text-6xl"></i>
+                    </div>
+                    @endif
+                    <!-- Overlay Gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <!-- Featured Badge -->
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full">
+                            <span class="w-2 h-2 bg-nasdem-red rounded-full mr-2 animate-pulse"></span>
+                            <span class="text-sm font-semibold text-gray-900 dark:text-white">FEATURED</span>
+                        </span>
                     </div>
                 </div>
-                @endif
-
-                <!-- News List -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    @foreach($latestNews->skip(1)->take(4) as $news)
-                    <div class="news-item-card fade-in-up animation-delay-{{ ($loop->index + 1) * 100 }}">
-                        <div class="news-item-image">
-                            @if($news->featured_image && file_exists(public_path('storage/' . $news->featured_image)))
-                            <img src="{{ asset('storage/' . $news->featured_image) }}"
-                                alt="{{ $news->title }}"
-                                class="group-hover:scale-110">
-                            @else
-                            <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
-                                <i class="fas fa-newspaper text-white text-4xl opacity-50"></i>
-                            </div>
-                            @endif
-                            <div class="news-item-category" style="background-color: {{ $news->category->color ?? '#001F3F' }}">
-                                {{ $news->category->name ?? 'Berita' }}
-                            </div>
-                        </div>
-                        <div class="news-item-content">
-                            <div class="news-item-meta">
-                                <span class="news-item-date">
-                                    <i class="fas fa-calendar-alt mr-2"></i>
-                                    {{ $news->published_at->format('d M Y') }}
-                                </span>
-                                <span class="news-item-views">
-                                    <i class="fas fa-eye mr-2"></i>
-                                    {{ number_format($news->views) }}
-                                </span>
-                            </div>
-                            <h4 class="news-item-title">
-                                <a href="{{ route('news.show', $news->slug) }}">{{ Str::limit($news->title, 70) }}</a>
-                            </h4>
-                            <p class="news-item-excerpt">{{ Str::limit($news->excerpt, 100) }}</p>
-                            <a href="{{ route('news.show', $news->slug) }}" class="news-item-link">
-                                Baca Selengkapnya <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                            </a>
+                
+                <!-- Featured Content -->
+                <div class="p-8 lg:p-10 flex flex-col justify-center">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="inline-block px-4 py-1.5 text-xs font-semibold text-white rounded-full" 
+                              style="background-color: {{ $latestNews->first()->category->color ?? '#001F3F' }}">
+                            {{ $latestNews->first()->category->name ?? 'Berita' }}
+                        </span>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            {{ $latestNews->first()->published_at->format('d M Y') }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+                        <a href="{{ route('news.show', $latestNews->first()->slug) }}" 
+                           class="hover:text-nasdem-blue dark:hover:text-blue-400 transition-colors duration-300">
+                            {{ $latestNews->first()->title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        {{ Str::limit($latestNews->first()->excerpt, 200) }}
+                    </p>
+                    
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-700">
+                        <a href="{{ route('news.show', $latestNews->first()->slug) }}" 
+                           class="inline-flex items-center text-nasdem-blue dark:text-blue-400 font-semibold hover:text-nasdem-red dark:hover:text-red-400 transition-colors duration-300 group">
+                            <span>Baca Artikel Lengkap</span>
+                            <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </a>
+                        <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>{{ $latestNews->first()->created_at->diffForHumans() }}</span>
                         </div>
                     </div>
-                    @endforeach
                 </div>
             </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- News Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @foreach($latestNews->skip(1)->take(4) as $news)
+        <div class="group bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+            <!-- News Image -->
+            <div class="relative overflow-hidden h-48">
+                @if($news->featured_image && file_exists(public_path('storage/' . $news->featured_image)))
+                <img src="{{ asset('storage/' . $news->featured_image) }}"
+                     alt="{{ $news->title }}"
+                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                @else
+                <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                    <i class="fas fa-newspaper text-white/20 text-4xl"></i>
+                </div>
+                @endif
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                <!-- Category Badge -->
+                <span class="absolute top-4 left-4 inline-block px-3 py-1 text-xs font-semibold text-white rounded-full backdrop-blur-sm"
+                      style="background-color: {{ $news->category->color ?? '#001F3F' }}">
+                    {{ $news->category->name ?? 'Berita' }}
+                </span>
+            </div>
+            
+            <!-- News Content -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        {{ $news->published_at->format('d M Y') }}
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">
+                        <i class="fas fa-eye mr-2"></i>
+                        {{ number_format($news->views) }}
+                    </span>
+                </div>
+                
+                <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3 leading-snug">
+                    <a href="{{ route('news.show', $news->slug) }}" 
+                       class="hover:text-nasdem-blue dark:hover:text-blue-400 transition-colors duration-300">
+                        {{ Str::limit($news->title, 65) }}
+                    </a>
+                </h4>
+                
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-5 line-clamp-2">
+                    {{ Str::limit($news->excerpt, 120) }}
+                </p>
+                
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <a href="{{ route('news.show', $news->slug) }}" 
+                       class="inline-flex items-center text-sm text-nasdem-blue dark:text-blue-400 font-medium hover:text-nasdem-red dark:hover:text-red-400 transition-colors duration-300 group">
+                        <span>Baca Selengkapnya</span>
+                        <i class="fas fa-arrow-right ml-2 text-xs transform group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </a>
+                    <div class="text-gray-400 text-xs">
+                        {{ $news->created_at->diffForHumans() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
 
             <!-- Sidebar -->
             <div class="space-y-8">
@@ -373,7 +430,8 @@
                                     alt="{{ $popular->title }}"
                                     class="group-hover:scale-105">
                                 @else
-                                <div class="w-full h-full bg-gradient-to-r from-[#001F3F] to-blue-800 flex items-center justify-center">
+                                <div class="w-full h-full flex items-center justify-center"> 
+                                    <!-- bg-gradient-to-r from-[#001F3F] to-blue-800  -->
                                     <i class="fas fa-newspaper  text-lg opacity-50"></i>
                                 </div>
                                 @endif
@@ -419,30 +477,109 @@
             </div>
         </div>
 
-        <!-- Category Highlights -->
-        <div class="mt-20 ">
-            <div class="text-center mb-12 ">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#001F3F] mb-4">Kategori Berita</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Temukan berita berdasarkan kategori yang Anda minati</p>
+       <!-- Category Highlights -->
+<div class="mt-20 py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 rounded-3xl">
+    <div class="px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-14">
+            <div class="inline-flex items-center px-5 py-2.5 bg-nasdem-red/10 dark:bg-red-900/30 rounded-full mb-6">
+                <div class="w-2 h-2 bg-nasdem-red rounded-full mr-2 animate-pulse"></div>
+                <span class="text-nasdem-red dark:text-red-400 font-semibold text-sm uppercase tracking-wider">EXPLORE CATEGORIES</span>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                @foreach($categories ?? [] as $category)
-                <a href="{{ route('news.category', $category->slug) }}"
-                    class="category-card group"
-                    style="--category-color: {{ $category->color ?? '#001F3F' }}">
-                    <div class="category-icon" style="background-color: {{ $category->color ?? '#001F3F' }}">
-                        <i class="fas fa-folder text-white"></i>
-                    </div>
-                    <h3 class="category-name">{{ $category->name }}</h3>
-                    <div class="category-count">{{ $category->beritas()->count() ?? 0 }} Berita</div>
-                    <div class="category-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                @endforeach
-            </div>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Jelajahi <span class="bg-gradient-to-r from-nasdem-blue to-blue-600 dark:from-blue-400 dark:to-blue-300 bg-clip-text text-transparent">Kategori</span> Berita
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Temukan informasi terkini berdasarkan kategori yang sesuai dengan minat Anda
+            </p>
         </div>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach($categories ?? [] as $category)
+            @php
+                $color = $category->color ?? '#001F3F';
+                $count = $category->beritas()->count() ?? 0;
+            @endphp
+            
+            <a href="{{ route('news.category', $category->slug) }}" 
+               class="group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3">
+                
+                <!-- Animated Background -->
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                     style="background: radial-gradient(circle at 50% 0%, {{ $color }}15 0%, transparent 70%);">
+                </div>
+                
+                <!-- Content -->
+                <div class="relative p-6 z-10">
+                    <!-- Icon with animation -->
+                    <div class="w-16 h-16 rounded-2xl mb-5 mx-auto flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500"
+                         style="background: linear-gradient(135deg, {{ $color }}, {{ $color }}dd); box-shadow: 0 10px 25px {{ $color }}40;">
+                        <i class="fas fa-folder text-white text-2xl"></i>
+                    </div>
+                    
+                    <!-- Category Info -->
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-nasdem-blue dark:group-hover:text-blue-400 transition-colors duration-300">
+                            {{ $category->name }}
+                        </h3>
+                        
+                        <!-- Counter with animation -->
+                        <div class="inline-flex items-center justify-center px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full mb-4">
+                            <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                {{ $count }} Berita
+                            </span>
+                            @if($count > 0)
+                            <div class="ml-2 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            @endif
+                        </div>
+                        
+                        <!-- Description -->
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">
+                            Jelajahi semua berita terkait {{ strtolower($category->name) }}
+                        </p>
+                    </div>
+                    
+                    <!-- Explore Button -->
+                    <div class="flex items-center justify-center pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-sm font-semibold text-nasdem-blue dark:text-blue-400 group-hover:text-nasdem-red dark:group-hover:text-red-400 transition-colors duration-300">
+                            Jelajahi Kategori
+                        </span>
+                        <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-2 transition-transform duration-300 text-nasdem-blue dark:text-blue-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Hover Line Animation -->
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-{{ str_replace('#', '', $color) }} to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            </a>
+            @endforeach
+            
+            <!-- Empty State -->
+            @if(empty($categories) || count($categories) == 0)
+            <div class="col-span-full text-center py-12">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 mb-6">
+                    <i class="fas fa-folder text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">Belum Ada Kategori</h3>
+                <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+                    Kategori berita akan segera tersedia. Pantau terus perkembangan kami.
+                </p>
+            </div>
+            @endif
+        </div>
+        
+        <!-- CTA -->
+        @if(!empty($categories) && count($categories) > 0)
+        <div class="text-center mt-14">
+            <a href="{{ route('news.categories') ?? '#' }}" 
+               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-nasdem-navy to-nasdem-blue dark:from-gray-800 dark:to-gray-900 text-white rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-500 group border border-gray-200 dark:border-gray-700">
+                <span class="font-bold text-lg">Lihat Semua Kategori</span>
+                <i class="fas fa-chevron-right ml-4 transform group-hover:translate-x-2 transition-transform duration-300"></i>
+            </a>
+        </div>
+        @endif
+    </div>
+</div>
     </div>
 </main>
 @endsection
@@ -628,6 +765,101 @@
 
 @push('styles')
 <style>
+    /* Category Cards Enhancements */
+.category-card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, 
+        var(--category-color, #001F3F) 0%, 
+        transparent 30%, 
+        transparent 70%, 
+        var(--category-color, #001F3F) 100%);
+    border-radius: 24px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+/* Gradient border effect */
+.category-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(45deg, 
+        var(--category-color, #001F3F), 
+        transparent, 
+        var(--category-color, #001F3F));
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.category-card:hover::after {
+    opacity: 1;
+}
+
+/* Floating animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.category-card:hover .fa-folder {
+    animation: float 1.5s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .category-card {
+        padding: 1.5rem !important;
+    }
+    
+    .category-card h3 {
+        font-size: 1.125rem !important;
+    }
+    
+    .category-card .fa-folder {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Glass effect for dark mode */
+.dark .category-card {
+    backdrop-filter: blur(10px);
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .category-card:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(59, 130, 246, 0.3);
+}
     /* Animasi baru */
     @keyframes bounce-slow {
 
@@ -1153,7 +1385,7 @@
     }
 
     .popular-news-item:hover {
-        background: #F9FAFB;
+        background: #01016dff;
         transform: translateX(5px);
     }
 

@@ -4,7 +4,8 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="nasdem-gradient py-12 md:py-16 full-width relative overflow-hidden">
+<section class="nasdem-gradient py-16 md:py-20 full-width relative overflow-hidden">
+    <!-- Animated Background Particles -->
     <div class="absolute inset-0">
         <div class="particles">
             @for ($i = 0; $i < 20; $i++)
@@ -17,7 +18,7 @@
             ">
         </div>
         @endfor
-    </div>
+        </div>
     </div>
 
     <div class="px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
@@ -241,11 +242,93 @@
             closeImageModal();
         }
     });
+    
 </script>
 @endpush
 
 @push('styles')
 <style>
+      /* Hero Section Particles - Sama seperti contact page */
+    .particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: var(--size);
+        height: var(--size);
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: float var(--duration) linear infinite var(--delay);
+        left: var(--x);
+        top: var(--y);
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-100vh) translateX(20px);
+            opacity: 0;
+        }
+    }
+
+    /* Animations */
+    @keyframes fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-up.animated {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .animation-delay-100 {
+        transition-delay: 0.1s;
+    }
+
+    .animation-delay-200 {
+        transition-delay: 0.2s;
+    }
+
+    .animation-delay-300 {
+        transition-delay: 0.3s;
+    }
+
+    .animation-delay-400 {
+        transition-delay: 0.4s;
+    }
+
+    .animation-delay-500 {
+        transition-delay: 0.5s;
+    }
     .share-btn {
         width: 48px;
         height: 48px;

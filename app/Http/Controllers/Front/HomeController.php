@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita\Berita;
+use App\Models\Berita\BeritaCategory; // <-- IMPORT INI
 use App\Models\DPC\Dpc;
 use App\Models\Kader\Kader;
 use App\Models\DPRT\Dprt;
@@ -26,6 +27,15 @@ class HomeController extends Controller
             ->take(6)
             ->get();
         
+        // AMBIL KATEGORI - SAMA SEPERTI DI NEWSCONTROLLER
+        $categories = BeritaCategory::where('is_active', true)->get();
+        
+        // Ambil berita populer
+        $popularNews = Berita::published()
+            ->orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+        
         // Ambil statistik
         $stats = [
             'total_kader' => Kader::active()->verified()->count(),
@@ -33,6 +43,13 @@ class HomeController extends Controller
             'total_dprt' => Dprt::where('is_active', true)->count(),
         ];
         
-        return view('front.index', compact('headlineNews', 'latestNews', 'stats'));
+        // TAMBAHKAN $categories dan $popularNews KE COMPACT
+        return view('front.index', compact(
+            'headlineNews', 
+            'latestNews', 
+            'stats',
+            'categories',    // <-- INI DITAMBAHKAN
+            'popularNews'    // <-- INI DITAMBAHKAN
+        ));
     }
 }

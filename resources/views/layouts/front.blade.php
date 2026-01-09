@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark:bg-gray-900">
 
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,24 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Dark Mode Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'nasdem-navy': '#001F3F',
+                        'nasdem-red': '#e31b23',
+                        'nasdem-gold': '#FFD700',
+                        'nasdem-blue': '#0a2f5a',
+                        'nasdem-orange': '#fdb717',
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -28,8 +46,18 @@
             --nasdem-gold: #FFD700;
         }
 
+        /* Dark mode colors */
+        .dark {
+            --nasdem-navy: #0a2f5a;
+            --nasdem-navy-light: #001F3F;
+        }
+
         .nasdem-navy-bg {
             background-color: var(--nasdem-navy);
+        }
+
+        .dark .nasdem-navy-bg {
+            background-color: #1a365d; /* Dark mode color */
         }
 
         .nasdem-navy-text {
@@ -77,6 +105,16 @@
             border-bottom: 3px solid var(--nasdem-red);
         }
 
+        /* Dark mode untuk news card */
+        .dark .news-card {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+
+        .dark .news-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
         /* Gradient untuk hero section */
         .nasdem-gradient {
             background: linear-gradient(135deg, var(--nasdem-navy) 0%, #0a2f5a 100%);
@@ -120,9 +158,17 @@
             background: #f1f1f1;
         }
 
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
+
         ::-webkit-scrollbar-thumb {
             background: var(--nasdem-navy);
             border-radius: 4px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
         }
 
         /* Full width container */
@@ -152,6 +198,10 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+        }
+
+        .dark .mobile-menu {
+            background: linear-gradient(135deg, #1a365d 0%, #0a2f5a 100%);
         }
 
         .mobile-menu.active {
@@ -283,6 +333,10 @@
             color: var(--nasdem-red);
         }
 
+        .dark .mobile-logo-icon {
+            background: #374151;
+        }
+
         .mobile-logo-text {
             display: flex;
             flex-direction: column;
@@ -341,12 +395,84 @@
         #mobile-menu-button.active i {
             transform: rotate(90deg);
         }
+
+        /* Dark Mode Toggle Button Styling */
+        #darkModeToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--nasdem-navy);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #darkModeToggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark #darkModeToggle {
+            background: var(--nasdem-orange);
+        }
+
+        #sunIcon {
+            display: none;
+        }
+
+        .dark #sunIcon {
+            display: block;
+        }
+
+        .dark #moonIcon {
+            display: none;
+        }
+
+        /* Dark mode untuk footer */
+        .dark footer {
+            background-color: #1a365d;
+        }
+
+        .dark .text-gray-300 {
+            color: #9ca3af;
+        }
+
+        .dark .text-gray-400 {
+            color: #9ca3af;
+        }
+
+        .dark .bg-white {
+            background-color: #1f2937;
+        }
+
+        .dark .text-white {
+            color: #f3f4f6;
+        }
     </style>
 
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
+    <!-- Dark Mode Toggle Button -->
+    <button id="darkModeToggle" class="bg-nasdem-navy dark:bg-nasdem-orange text-white">
+        <svg id="sunIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+
     <!-- Session Status -->
     @if (session('status'))
     <div class="fixed top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg" id="session-alert">
@@ -356,112 +482,116 @@
     @endif
 
     <!-- Navbar -->
-    <nav class="nasdem-navy-bg text-white shadow-lg sticky top-0 z-50 full-width">
+    <nav class="nasdem-navy-bg text-white shadow-lg sticky top-0 z-50 full-width dark:bg-gray-800">
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                                <span class="font-bold text-xl nasdem-red-text">N</span>
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center dark:bg-gray-700">
+                                <!-- Logo langsung -->
+                                <img src="{{ asset('logo/nsdm.png') }}" 
+                                     alt="Logo NasDem" 
+                                     class="w-10 h-10 object-contain">
                             </div>
                             <div>
                                 <span class="text-xl font-bold text-white">NasDem</span>
-                                <span class="text-gray-300 block text-sm -mt-1">Bojonegoro</span>
+                                <span class="text-gray-300 block text-sm -mt-1 dark:text-gray-400">Bojonegoro</span>
                             </div>
                         </a>
                     </div>
                     <div class="hidden md:ml-10 md:flex md:space-x-8">
-                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Beranda</a>
-                        <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Profil</a>
-                        <a href="{{ route('structure') }}" class="{{ request()->routeIs('structure') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Struktur</a>
-                        <a href="{{ route('news.index') }}" class="{{ request()->routeIs('news.*') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Berita</a>
-                        <a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Galeri</a>
-                        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium">Kontak</a>
+                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Beranda</a>
+                        <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Profil</a>
+                        <a href="{{ route('structure') }}" class="{{ request()->routeIs('structure') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Struktur</a>
+                        <a href="{{ route('news.index') }}" class="{{ request()->routeIs('news.*') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Berita</a>
+                        <a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Galeri</a>
+                        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'nav-active' : 'text-gray-300 hover:text-white' }} px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-white">Kontak</a>
                     </div>
                 </div>
-<div class="flex items-center">
-    <!-- Desktop & Tablet Landscape: Tombol muncul -->
-    <div class="hidden lg:flex items-center">
-        <a href="{{ route('kader.register') }}" class="px-4 py-2 bg-red-600 hover:bg-blue-700 rounded-md text-white font-medium text-sm transition duration-300">
-            <i class="fas fa-user-plus mr-2"></i>Daftar Kader
-        </a>
-        @auth
-        <a href="{{ route('admin.dashboard') }}" class="ml-4 px-4 py-2 bg-white text-nasdem-navy rounded-md font-medium text-sm hover:bg-gray-100">
-            Dashboard
-        </a>
-        @else
-        <a href="{{ route('login') }}" class="ml-4 px-4 py-2 bg-white text-[#DC2626] rounded-md font-medium text-sm hover:bg-blue-100">
-            Login
-        </a>
-        @endauth
-    </div>
-    
-    <!-- Mobile & Tablet Portrait: Hanya tombol hamburger -->
-    <button id="mobile-menu-button" class="lg:hidden text-white">
-        <i class="fas fa-bars text-xl"></i>
-    </button>
-</div>
-
-            <!-- Mobile Menu Overlay -->
-            <div id="menu-overlay" class="menu-overlay"></div>
-
-            <!-- Mobile Menu Modern -->
-            <div id="mobile-menu" class="mobile-menu">
-                <div class="mobile-menu-header">
-                    <div class="mobile-logo">
-                        <div class="mobile-logo-icon">N</div>
-                        <div class="mobile-logo-text">
-                            <div class="main">NasDem</div>
-                            <div class="sub">Bojonegoro</div>
-                        </div>
-                    </div>
-                    <button id="close-mobile-menu" class="close-menu-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="mobile-menu-content">
-                    <a href="{{ route('home') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                        <i class="fas fa-home mr-3"></i>Beranda
-                    </a>
-                    <a href="{{ route('profile') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('profile') ? 'active' : '' }}">
-                        <i class="fas fa-user mr-3"></i>Profil
-                    </a>
-                    <a href="{{ route('structure') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('structure') ? 'active' : '' }}">
-                        <i class="fas fa-sitemap mr-3"></i>Struktur
-                    </a>
-                    <a href="{{ route('news.index') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('news.*') ? 'active' : '' }}">
-                        <i class="fas fa-newspaper mr-3"></i>Berita
-                    </a>
-                    <a href="{{ route('gallery') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('gallery') ? 'active' : '' }}">
-                        <i class="fas fa-images mr-3"></i>Galeri
-                    </a>
-                    <a href="{{ route('contact') }}" 
-                       class="mobile-menu-link {{ request()->routeIs('contact') ? 'active' : '' }}">
-                        <i class="fas fa-address-book mr-3"></i>Kontak
-                    </a>
-                </div>
-
-                <div class="mobile-menu-footer">
-                    <div class="mobile-action-btns">
-                        <a href="{{ route('kader.register') }}" class="mobile-action-btn primary">
+                <div class="flex items-center">
+                    <!-- Desktop & Tablet Landscape: Tombol muncul -->
+                    <div class="hidden lg:flex items-center">
+                        <a href="{{ route('kader.register') }}" class="px-4 py-2 bg-red-600 hover:bg-blue-700 rounded-md text-white font-medium text-sm transition duration-300 dark:bg-nasdem-red dark:hover:bg-nasdem-orange">
                             <i class="fas fa-user-plus mr-2"></i>Daftar Kader
                         </a>
                         @auth
-                        <a href="{{ route('admin.dashboard') }}" class="mobile-action-btn secondary">
+                        <a href="{{ route('admin.dashboard') }}" class="ml-4 px-4 py-2 bg-white text-nasdem-navy rounded-md font-medium text-sm hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                             Dashboard
                         </a>
                         @else
-                        <a href="{{ route('login') }}" class="mobile-action-btn secondary">
+                        <a href="{{ route('login') }}" class="ml-4 px-4 py-2 bg-white text-[#DC2626] rounded-md font-medium text-sm hover:bg-blue-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
                             Login
                         </a>
                         @endauth
+                    </div>
+                    
+                    <!-- Mobile & Tablet Portrait: Hanya tombol hamburger -->
+                    <button id="mobile-menu-button" class="lg:hidden text-white dark:text-gray-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Overlay -->
+                <div id="menu-overlay" class="menu-overlay"></div>
+
+                <!-- Mobile Menu Modern -->
+                <div id="mobile-menu" class="mobile-menu">
+                    <div class="mobile-menu-header">
+                        <div class="mobile-logo">
+                            <div class="mobile-logo-icon">N</div>
+                            <div class="mobile-logo-text">
+                                <div class="main">NasDem</div>
+                                <div class="sub">Bojonegoro</div>
+                            </div>
+                        </div>
+                        <button id="close-mobile-menu" class="close-menu-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="mobile-menu-content">
+                        <a href="{{ route('home') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                            <i class="fas fa-home mr-3"></i>Beranda
+                        </a>
+                        <a href="{{ route('profile') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('profile') ? 'active' : '' }}">
+                            <i class="fas fa-user mr-3"></i>Profil
+                        </a>
+                        <a href="{{ route('structure') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('structure') ? 'active' : '' }}">
+                            <i class="fas fa-sitemap mr-3"></i>Struktur
+                        </a>
+                        <a href="{{ route('news.index') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('news.*') ? 'active' : '' }}">
+                            <i class="fas fa-newspaper mr-3"></i>Berita
+                        </a>
+                        <a href="{{ route('gallery') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('gallery') ? 'active' : '' }}">
+                            <i class="fas fa-images mr-3"></i>Galeri
+                        </a>
+                        <a href="{{ route('contact') }}" 
+                           class="mobile-menu-link {{ request()->routeIs('contact') ? 'active' : '' }}">
+                            <i class="fas fa-address-book mr-3"></i>Kontak
+                        </a>
+                    </div>
+
+                    <div class="mobile-menu-footer">
+                        <div class="mobile-action-btns">
+                            <a href="{{ route('kader.register') }}" class="mobile-action-btn primary">
+                                <i class="fas fa-user-plus mr-2"></i>Daftar Kader
+                            </a>
+                            @auth
+                            <a href="{{ route('admin.dashboard') }}" class="mobile-action-btn secondary">
+                                Dashboard
+                            </a>
+                            @else
+                            <a href="{{ route('login') }}" class="mobile-action-btn secondary">
+                                Login
+                            </a>
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
@@ -469,36 +599,36 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="full-width">
+    <main class="full-width dark:bg-gray-900">
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="nasdem-navy-bg text-white pt-10 pb-6 full-width">
+    <footer class="nasdem-navy-bg text-white pt-10 pb-6 full-width dark:bg-gray-800">
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
                 <div>
                     <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 dark:bg-gray-700">
                             <span class="font-bold text-xl text-red-600">N</span>
                         </div>
                         <div>
                             <span class="text-xl font-bold">NasDem</span>
-                            <span class="text-gray-300 block text-sm -mt-1">Bojonegoro</span>
+                            <span class="text-gray-300 block text-sm -mt-1 dark:text-gray-400">Bojonegoro</span>
                         </div>
                     </div>
-                    <p class="text-gray-300 text-sm mb-4">Partai Nasional Demokrat (NasDem) Kabupaten Bojonegoro, berkomitmen membangun daerah yang maju, adil, dan sejahtera.</p>
+                    <p class="text-gray-300 text-sm mb-4 dark:text-gray-400">Partai Nasional Demokrat (NasDem) Kabupaten Bojonegoro, berkomitmen membangun daerah yang maju, adil, dan sejahtera.</p>
                     <div class="flex space-x-3">
-                        <a href="#" class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700">
+                        <a href="#" class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 dark:bg-blue-900">
                             <i class="fab fa-facebook-f text-sm"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700">
+                        <a href="#" class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 dark:bg-red-800">
                             <i class="fab fa-instagram text-sm"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500">
+                        <a href="#" class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 dark:bg-blue-700">
                             <i class="fab fa-twitter text-sm"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700">
+                        <a href="#" class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 dark:bg-green-800">
                             <i class="fab fa-whatsapp text-sm"></i>
                         </a>
                     </div>
@@ -507,25 +637,25 @@
                 <div>
                     <h4 class="font-bold text-lg mb-4">Menu Cepat</h4>
                     <ul class="space-y-2">
-                        <li><a href="{{ route('profile') }}" class="text-gray-300 hover:text-white text-sm">Profil Partai</a></li>
-                        <li><a href="{{ route('structure') }}" class="text-gray-300 hover:text-white text-sm">Struktur Organisasi</a></li>
-                        <li><a href="{{ route('news.index') }}" class="text-gray-300 hover:text-white text-sm">Berita</a></li>
-                        <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white text-sm">Galeri Kegiatan</a></li>
+                        <li><a href="{{ route('profile') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Profil Partai</a></li>
+                        <li><a href="{{ route('structure') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Struktur Organisasi</a></li>
+                        <li><a href="{{ route('news.index') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Berita</a></li>
+                        <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Galeri Kegiatan</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-lg mb-4">Layanan</h4>
                     <ul class="space-y-2">
-                        <li><a href="{{ route('kader.register') }}" class="text-gray-300 hover:text-white text-sm">Pendaftaran Kader</a></li>
-                        <li><a href="{{ route('membership.check') }}" class="text-gray-300 hover:text-white text-sm">Cek Keanggotaan</a></li>
-                        <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white text-sm">Hubungi Kami</a></li>
+                        <li><a href="{{ route('kader.register') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Pendaftaran Kader</a></li>
+                        <li><a href="{{ route('membership.check') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Cek Keanggotaan</a></li>
+                        <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white text-sm dark:text-gray-400 dark:hover:text-white">Hubungi Kami</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-lg mb-4">Kantor DPC</h4>
-                    <ul class="space-y-3 text-sm text-gray-300">
+                    <ul class="space-y-3 text-sm text-gray-300 dark:text-gray-400">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-red-500"></i>
                             <span>Jl. Raya Bojonegoro No. 123, Kabupaten Bojonegoro, Jawa Timur</span>
@@ -546,9 +676,9 @@
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-gray-700 text-center">
-                <p class="text-gray-400 text-sm">&copy; {{ date('Y') }} Partai NasDem Kabupaten Bojonegoro. Semua hak dilindungi.</p>
-                <p class="text-gray-400 text-sm mt-1">Website Resmi DPC Partai Nasional Demokrat Kabupaten Bojonegoro</p>
+            <div class="pt-6 border-t border-gray-700 text-center dark:border-gray-600">
+                <p class="text-gray-400 text-sm dark:text-gray-500">&copy; {{ date('Y') }} Partai NasDem Kabupaten Bojonegoro. Semua hak dilindungi.</p>
+                <p class="text-gray-400 text-sm mt-1 dark:text-gray-500">Website Resmi DPC Partai Nasional Demokrat Kabupaten Bojonegoro</p>
             </div>
         </div>
     </footer>
@@ -557,6 +687,27 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
+        // ===== DARK MODE FUNCTIONALITY =====
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        
+        // Check for saved theme or prefer color scheme
+        if (localStorage.getItem('dark-mode') === 'true' || 
+            (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('dark-mode', 'true');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('dark-mode', 'false');
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('dark-mode', isDark ? 'true' : 'false');
+        });
+
         // Inisialisasi Swiper untuk slider (satu slider saja)
         @if(request()->routeIs('home'))
         document.addEventListener('DOMContentLoaded', function() {
@@ -646,5 +797,4 @@
 
     @stack('scripts')
 </body>
-
 </html>

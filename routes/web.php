@@ -30,6 +30,9 @@ Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/berita/kategori/{slug}', [NewsController::class, 'byCategory'])->name('news.category');
 Route::get('/structure/dpc/{slug}', [StructureController::class, 'dpcDetail'])->name('structure.dpc.detail');
+
+Route::get('/berita/kategori', [NewsController::class, 'categories'])->name('news.categories');
+
 // Gallery routes
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/gallery/{slug}', [GalleryController::class, 'show'])->name('gallery.show');

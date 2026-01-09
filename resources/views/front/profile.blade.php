@@ -37,10 +37,10 @@
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00]">
 @if($dpd)
 <!-- DPD Info -->
-<section id="dpd-info" class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up">
+<section id="dpd-info" class="py-16  full-width fade-in-up">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
             <!-- Main Title -->
@@ -182,7 +182,7 @@
 @endif
 
     <!-- Mars & Hymne NasDem -->
-    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-100">
+    <section class="py-16  full-width fade-in-up animation-delay-100">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
 <div class="section-header mb-10 flex flex-col items-center justify-center text-center">
@@ -242,7 +242,7 @@
     </section>
 
     <!-- Anggota Dewan Kabupaten -->
-    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-100">
+    <section class="py-16 bg-gray-50 full-width fade-in-up animation-delay-100">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12">
                 <div class="section-header mb-10 flex flex-col items-center justify-center text-center">
@@ -330,7 +330,7 @@
     </section>
 
     <!-- Visi & Misi -->
-    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-300">
+    <section class="py-16  full-width fade-in-up animation-delay-300">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Visi -->
@@ -373,7 +373,7 @@
     </section>
 
     <!-- Sejarah -->
-    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-400">
+    <section class="py-16  full-width fade-in-up animation-delay-400">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12">
                 <div class="section-header">
@@ -421,7 +421,7 @@
     </section>
 
     <!-- Program Kerja -->
-    <section class="py-16 bg-gradient-to-r from-[#E69D00] to-[#E69D00] full-width fade-in-up animation-delay-500">
+    <section class="py-16 bg-gray-100 full-width fade-in-up animation-delay-500">
         <div class="px-4 sm:px-6 lg:px-8 mx-auto">
             <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
                 <div class="section-header">
