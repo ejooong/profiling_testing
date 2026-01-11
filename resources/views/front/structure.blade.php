@@ -112,7 +112,7 @@ if (isset($dpdStructures) && is_iterable($dpdStructures)) {
         
         <!-- DPD Structure -->
         @if($dpd && $dpd->structures && $dpd->structures->count() > 0)
-        <section id="dpd-structure" class="py-16 bg-white full-width fade-in-up">
+        <section id="dpd-structure" class="py-16 bg-white rounded-2xl shadow-xl p-8 md:p-12 full-width fade-in-up">
             <div class="px-4 sm:px-6 lg:px-8 mx-auto">
                 <div class="bg-gray-50 rounded-2xl shadow-xl p-8 md:p-12 full-width">
                     <div class="text-center mb-12">

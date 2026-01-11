@@ -216,7 +216,7 @@
 
             <!-- Contact Form -->
             <div id="contact-form">
-                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10 hover-card fade-in-up animation-delay-100">
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10 hover-card  fade-in-up animation-delay-100">
                     <div class="flex items-center mb-8">
                         <div class="w-2 h-10 bg-[#06284f] rounded-full mr-4"></div>
                         <h2 class="text-2xl md:text-3xl font-bold text-[#001F3F]">Kirim Pesan</h2>
@@ -272,7 +272,7 @@
                                     <p class="error-message">
                                         <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
                                     </p>
-                                @enderror
+                                    @enderror
                                 </div>
 
                                 <!-- Phone -->
@@ -393,8 +393,7 @@
             </div>
         </div>
 
-        <!-- Map Section with Leaflet OpenStreetMap -->
-        <div class="mt-12 md:mt-16 fade-in-up">
+<div class="mt-12 md:mt-16 fade-in-up">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover-card">
                 <div class="p-8 md:p-10 border-b border-gray-100">
                     <div class="flex items-center justify-between">
@@ -403,61 +402,48 @@
                             <h2 class="text-2xl md:text-3xl font-bold text-[#001F3F]">Lokasi Kantor DPD</h2>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button class="map-control-btn active" data-layer="streets">
+                            <button class="map-control-btn active" data-view="street">
                                 <i class="fas fa-road"></i>
                             </button>
-                            <button class="map-control-btn" data-layer="satellite">
+                            <button class="map-control-btn" data-view="satellite">
                                 <i class="fas fa-satellite"></i>
-                            </button>
-                            <button class="map-control-btn" data-layer="dark">
-                                <i class="fas fa-moon"></i>
                             </button>
                         </div>
                     </div>
                     <p class="text-gray-600 mt-4">Kantor Dewan Pimpinan Daerah Partai NasDem Kabupaten Bojonegoro</p>
                 </div>
                 
-                <div class="relative h-96 md:h-[500px] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                    <!-- Leaflet Map Container -->
-                    <div id="leaflet-map" class="w-full h-full"></div>
-                    
-                    <!-- Loading Overlay -->
-                    <div id="map-loading" class="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm z-10">
-                        <div class="text-center">
-                            <div class="w-16 h-16 border-4 border-[#06284f] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                            <p class="text-gray-700 font-medium">Memuat peta...</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Error Message -->
-                    <div id="map-error" class="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm z-10 hidden">
-                        <div class="text-center p-6 max-w-md">
-                            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                <div class="relative h-96 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                    <!-- Interactive Map Container -->
+                    <div class="absolute inset-0 map-container" id="map-view">
+                        <!-- Map Layers -->
+                        <div class="map-layer street active">
+                            <div class="map-grid">
+                                @for ($i = 0; $i < 16; $i++)
+                                <div class="map-tile"></div>
+                                @endfor
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Gagal Memuat Peta</h3>
-                            <p class="text-gray-600 mb-4">Tidak dapat terhubung ke layanan peta. Coba beberapa saat lagi.</p>
-                            <button onclick="initMap()" class="px-6 py-3 bg-[#06284f] text-white rounded-lg font-medium hover:bg-[#0a2f5a] transition duration-300">
-                                <i class="fas fa-redo mr-2"></i>Coba Lagi
-                            </button>
+                            <!-- Map Marker -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <div class="map-marker animate-bounce">
+                                    <div class="w-12 h-12 rounded-full bg-[#06284f] flex items-center justify-center text-white shadow-lg">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[#06284f]"></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Custom Map Controls -->
-                    <div class="absolute top-4 right-4 z-20 flex flex-col space-y-2">
-                        <button id="zoom-in" class="w-10 h-10 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 transition border border-gray-200">
-                            <i class="fas fa-plus text-gray-700"></i>
-                        </button>
-                        <button id="zoom-out" class="w-10 h-10 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 transition border border-gray-200">
-                            <i class="fas fa-minus text-gray-700"></i>
-                        </button>
-                        <button id="locate-me" class="w-10 h-10 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 transition border border-gray-200">
-                            <i class="fas fa-location-arrow text-gray-700"></i>
-                        </button>
+                        
+                        <div class="map-layer satellite">
+                            <div class="satellite-view">
+                                <div class="satellite-image"></div>
+                                <div class="satellite-grid"></div>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Map Info Panel -->
-                    <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg z-30">
+                    <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg">
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div class="flex items-center">
                                 <div class="w-10 h-10 rounded-full bg-[#06284f]/10 flex items-center justify-center mr-3">
@@ -469,10 +455,10 @@
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <a href="https://www.openstreetmap.org/?mlat=-7.150975&mlon=111.881832#map=16/-7.150975/111.881832" 
+                                <a href="https://www.google.com/maps?q=Jl+Raya+Bojonegoro+No.+123+Bojonegoro" 
                                    target="_blank"
                                    class="inline-flex items-center bg-[#001F3F] text-white px-5 py-2.5 rounded-lg font-medium hover:bg-[#0a2f5a] transition duration-300 shadow-md hover:shadow-lg">
-                                    <i class="fas fa-external-link-alt mr-2"></i>Buka Peta
+                                    <i class="fas fa-directions mr-2"></i>Navigasi
                                 </a>
                                 <button onclick="shareLocation()"
                                         class="inline-flex items-center bg-white text-gray-700 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition duration-300 shadow-md hover:shadow-lg border border-gray-200">
@@ -582,12 +568,163 @@
 </main>
 @endsection
 
-@push('styles')
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
+@push('scripts')
+<script>
+// Email Copy Function
+function copyEmail() {
+    const email = 'info@nasdem-bojonegoro.id';
+    navigator.clipboard.writeText(email).then(() => {
+        const successMsg = document.getElementById('copy-success');
+        successMsg.classList.remove('hidden');
+        setTimeout(() => {
+            successMsg.classList.add('hidden');
+        }, 2000);
+    });
+}
 
+// Character Counter for Message
+const messageTextarea = document.getElementById('message');
+const charCount = document.getElementById('char-count');
+
+messageTextarea.addEventListener('input', function() {
+    const length = this.value.length;
+    charCount.textContent = `${length}/1000`;
+    
+    if (length > 900) {
+        charCount.classList.add('text-red-500');
+    } else {
+        charCount.classList.remove('text-red-500');
+    }
+});
+
+// Form Submission with Loading Animation
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', function() {
+        const loader = submitBtn.querySelector('.loader');
+        const btnText = submitBtn.querySelector('.relative.z-10');
+        
+        btnText.classList.add('opacity-0');
+        loader.classList.remove('hidden');
+        
+        // Simulate form validation before submission
+        setTimeout(() => {
+            btnText.classList.remove('opacity-0');
+            loader.classList.add('hidden');
+        }, 3000);
+    });
+}
+
+// Map View Toggle
+const mapControlBtns = document.querySelectorAll('.map-control-btn');
+const mapLayers = document.querySelectorAll('.map-layer');
+
+mapControlBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const view = this.dataset.view;
+        
+        // Update active button
+        mapControlBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Update active map layer
+        mapLayers.forEach(layer => {
+            layer.classList.remove('active');
+            if (layer.classList.contains(view)) {
+                layer.classList.add('active');
+            }
+        });
+    });
+});
+
+// FAQ Accordion
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        // Toggle current answer
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+        }
+        
+        // Close other answers
+        faqQuestions.forEach(q => {
+            if (q !== this) {
+                const otherAnswer = q.nextElementSibling;
+                const otherIcon = q.querySelector('i');
+                otherAnswer.style.maxHeight = null;
+                otherIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+});
+
+// Share Location Function
+function shareLocation() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Lokasi Kantor DPD NasDem Bojonegoro',
+            text: 'Jl. Raya Bojonegoro No. 123, Bojonegoro',
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link berhasil disalin ke clipboard!');
+    }
+}
+
+// Initialize animations on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    fadeElements.forEach(el => observer.observe(el));
+});
+
+// Form validation enhancement
+const formInputs = document.querySelectorAll('.form-input');
+
+formInputs.forEach(input => {
+    // Add floating label effect
+    input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', function() {
+        if (!this.value) {
+            this.parentElement.classList.remove('focused');
+        }
+    });
+    
+    // Initialize labels for pre-filled values
+    if (input.value) {
+        input.parentElement.classList.add('focused');
+    }
+});
+</script>
+@endpush
+
+@push('styles')
 <style>
 /* Custom colors for this page */
 .nasdem-navy-color { color: #001F3F; }
@@ -908,39 +1045,60 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Leaflet Map Styles */
-#leaflet-map {
-    z-index: 1;
+/* Map Styles */
+.map-container {
+    position: relative;
 }
 
-.leaflet-container {
-    font-family: inherit;
+.map-layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
-/* Custom marker */
-.custom-marker {
-    background: #06284f;
-    border-radius: 50%;
+.map-layer.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 100%;
+}
+
+.map-tile {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+}
+
+.street .map-tile:nth-child(odd) {
+    background: #e8e8e8;
+}
+
+.satellite-view {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(135deg, #1a3a5f 0%, #0a2f5a 100%);
+}
+
+.satellite-image {
+    position: absolute;
+    inset: 20px;
+    background: linear-gradient(45deg, #2d5a8a 25%, transparent 25%),
+                linear-gradient(-45deg, #2d5a8a 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #2d5a8a 75%),
+                linear-gradient(-45deg, transparent 75%, #2d5a8a 75%);
+    background-size: 40px 40px;
+    background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+}
+
+.map-control-btn {
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    border: 3px solid white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    animation: marker-pulse 2s infinite;
-}
-
-@keyframes marker-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-/* Map Controls */
-.map-control-btn {
-    padding: 8px 16px;
     border-radius: 10px;
     background: white;
     border: 2px solid #e5e7eb;
@@ -949,16 +1107,14 @@
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    justify-content: center;
 }
 
 .map-control-btn:hover,
 .map-control-btn.active {
     border-color: #06284f;
     color: #06284f;
-    background: #f0f7ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(6, 40, 79, 0.1);
+    background: #fef2f2;
 }
 
 /* Stats Cards */
@@ -1067,11 +1223,6 @@
     .icon-wrapper i {
         font-size: 24px;
     }
-    
-    .map-control-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
 }
 
 @media (max-width: 640px) {
@@ -1083,526 +1234,5 @@
         grid-column: span 1;
     }
 }
-/* Custom PNG Marker Styles */
-.nasdem-marker {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-    transition: all 0.3s ease;
-    /* Pastikan gambar memiliki pointer events yang benar */
-    pointer-events: auto !important;
-}
-
-.nasdem-marker:hover {
-    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.4));
-    transform: translateY(-5px);
-}
-
-/* Animation for marker */
-@keyframes bounce-marker {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-/* Add animation to marker */
-.leaflet-marker-icon {
-    animation: bounce-marker 24s infinite;
-    
-}
-
-/* Custom marker shadow (optional) */
-.marker-shadow {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    width: 40px;
-    height: 10px;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-    filter: blur(5px);
-}
-
-/* Responsive marker size */
-@media (max-width: 768px) {
-    .nasdem-marker {
-        width: 40px !important;
-        height: 48px !important;
-    }
-}
 </style>
-@endpush
-
-@push('scripts')
-<script>
-// Email Copy Function
-function copyEmail() {
-    const email = 'info@nasdem-bojonegoro.id';
-    navigator.clipboard.writeText(email).then(() => {
-        const successMsg = document.getElementById('copy-success');
-        successMsg.classList.remove('hidden');
-        setTimeout(() => {
-            successMsg.classList.add('hidden');
-        }, 2000);
-    });
-}
-
-// Character Counter for Message
-const messageTextarea = document.getElementById('message');
-const charCount = document.getElementById('char-count');
-
-messageTextarea.addEventListener('input', function() {
-    const length = this.value.length;
-    charCount.textContent = `${length}/1000`;
-    
-    if (length > 900) {
-        charCount.classList.add('text-red-500');
-    } else {
-        charCount.classList.remove('text-red-500');
-    }
-});
-
-// Form Submission with Loading Animation
-const contactForm = document.getElementById('contactForm');
-const submitBtn = document.getElementById('submitBtn');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', function() {
-        const loader = submitBtn.querySelector('.loader');
-        const btnText = submitBtn.querySelector('.relative.z-10');
-        
-        btnText.classList.add('opacity-0');
-        loader.classList.remove('hidden');
-        
-        // Simulate form validation before submission
-        setTimeout(() => {
-            btnText.classList.remove('opacity-0');
-            loader.classList.add('hidden');
-        }, 3000);
-    });
-}
-
-// FAQ Accordion
-const faqQuestions = document.querySelectorAll('.faq-question');
-
-faqQuestions.forEach(question => {
-    question.addEventListener('click', function() {
-        const answer = this.nextElementSibling;
-        const icon = this.querySelector('i');
-        
-        // Toggle current answer
-        if (answer.style.maxHeight) {
-            answer.style.maxHeight = null;
-            icon.style.transform = 'rotate(0deg)';
-        } else {
-            answer.style.maxHeight = answer.scrollHeight + 'px';
-            icon.style.transform = 'rotate(180deg)';
-        }
-        
-        // Close other answers
-        faqQuestions.forEach(q => {
-            if (q !== this) {
-                const otherAnswer = q.nextElementSibling;
-                const otherIcon = q.querySelector('i');
-                otherAnswer.style.maxHeight = null;
-                otherIcon.style.transform = 'rotate(0deg)';
-            }
-        });
-    });
-});
-
-// Share Location Function
-function shareLocation() {
-    const locationData = {
-        title: 'Lokasi Kantor DPD NasDem Bojonegoro',
-        text: 'Jl. Raya Bojonegoro No. 123, Bojonegoro',
-        url: window.location.href
-    };
-    
-    if (navigator.share) {
-        navigator.share(locationData);
-    } else {
-        // Fallback: copy coordinates to clipboard
-        navigator.clipboard.writeText(`https://www.openstreetmap.org/?mlat=-7.150975&mlon=111.881832#map=16/-7.150975/111.881832`);
-        alert('Link peta telah disalin ke clipboard!');
-    }
-}
-
-// Initialize animations on scroll
-document.addEventListener('DOMContentLoaded', function() {
-    const fadeElements = document.querySelectorAll('.fade-in-up');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-            }
-        });
-    }, { 
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    fadeElements.forEach(el => observer.observe(el));
-});
-
-// Form validation enhancement
-const formInputs = document.querySelectorAll('.form-input');
-
-formInputs.forEach(input => {
-    // Add floating label effect
-    input.addEventListener('focus', function() {
-        this.parentElement.classList.add('focused');
-    });
-    
-    input.addEventListener('blur', function() {
-        if (!this.value) {
-            this.parentElement.classList.remove('focused');
-        }
-    });
-    
-    // Initialize labels for pre-filled values
-    if (input.value) {
-        input.parentElement.classList.add('focused');
-    }
-});
-
-// ================ LEAFLET MAP FUNCTIONALITY ================
-let map = null;
-let currentLayer = null;
-let marker = null;
-const officeCoords = [-7.150975, 111.881832];
-
-// Global function to check if Leaflet is loaded
-function isLeafletLoaded() {
-    return typeof L !== 'undefined' && L.map;
-}
-
-// Initialize Leaflet map
-// Initialize Leaflet map
-function initMap() {
-    try {
-        // Check if Leaflet is loaded
-        if (!isLeafletLoaded()) {
-            console.error('Leaflet not loaded yet');
-            setTimeout(initMap, 500); // Try again in 500ms
-            return;
-        }
-        
-        const loadingElement = document.getElementById('map-loading');
-        const errorElement = document.getElementById('map-error');
-        
-        // Hide error if showing
-        errorElement.classList.add('hidden');
-        
-        // Create map if not exists
-        if (!map) {
-            map = L.map('leaflet-map', {
-                center: officeCoords,
-                zoom: 16,
-                zoomControl: false, // We'll use custom controls
-                attributionControl: true
-            });
-            
-            // Add default layer (OpenStreetMap)
-            currentLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                maxZoom: 19
-            }).addTo(map);
-            
-            // Setup custom marker dengan PNG
-            setupCustomMarkers();
-            
-            // Setup layer controls
-            setupLayerControls();
-            
-            // Setup map controls
-            setupMapControls();
-        }
-        
-        // Hide loading
-        setTimeout(() => {
-            const loadingElement = document.getElementById('map-loading');
-            if (loadingElement) {
-                loadingElement.classList.add('hidden');
-            }
-            if (map) {
-                map.invalidateSize(); // Resize map to fit container
-            }
-        }, 1000);
-        
-    } catch (error) {
-        console.error('Error initializing map:', error);
-        document.getElementById('map-loading').classList.add('hidden');
-        document.getElementById('map-error').classlis.remove('hidden');
-    }
-}
-
-// Setup custom markers dengan PNG - VERSI FINAL
-function setupCustomMarkers() {
-    console.log('Creating final marker with correct anchor...');
-    
-    // ANCHOR YANG TEPAT berdasarkan debug: [25, 55]
-    const nasdemIcon = L.icon({
-        iconUrl: '{{ asset("logo/nsdm.png") }}',
-        iconSize: [50, 60], // Ukuran gambar
-        iconAnchor: [-670, -200], // ANCHOR YANG TEPAT! (bukan 60, tapi 55)
-        popupAnchor: [0, -55], // Popup muncul di atas marker
-        className: 'nasdem-marker'
-    });
-    
-    // Add marker dengan PNG
-    marker = L.marker(officeCoords, {
-        icon: nasdemIcon,
-        title: 'Kantor DPD NasDem Bojonegoro',
-        riseOnHover: true,
-        zIndexOffset: 1000 // Pastikan di atas layer lain
-    }).addTo(map);
-    
-    // Add popup dengan styling yang lebih baik
-    marker.bindPopup(`
-        <div class="p-3 max-w-xs">
-            <div class="flex items-center mb-2">
-                <div class="w-10 h-10 rounded-full bg-[#06284f]/10 flex items-center justify-center mr-3">
-                    <i class="fas fa-map-marked-alt text-[#06284f]"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-[#001F3F] text-lg leading-tight">Kantor DPD NasDem</h3>
-                    <p class="text-sm text-gray-600">Bojonegoro</p>
-                </div>
-            </div>
-            <div class="border-t pt-3 mt-2">
-                <p class="text-gray-700 mb-2 text-sm"><i class="fas fa-map-marker-alt text-[#06284f] mr-2"></i>Jl. Raya Bojonegoro No. 123</p>
-                <div class="space-y-2">
-                    <a href="tel:+62353123456" 
-                       class="flex items-center text-[#06284f] hover:text-[#001F3F] text-sm transition">
-                        <i class="fas fa-phone mr-2"></i> (0353) 123456
-                    </a>
-                    <a href="https://maps.google.com/?q=-7.150975,111.881832" 
-                       target="_blank" 
-                       class="flex items-center text-[#06284f] hover:text-[#001F3F] text-sm font-medium transition">
-                        <i class="fas fa-directions mr-2"></i>Buka di Google Maps
-                    </a>
-                </div>
-            </div>
-        </div>
-    `);
-    
-    // Buka popup secara otomatis saat pertama kali
-    setTimeout(() => {
-        marker.openPopup();
-        // Zoom lebih dekat untuk memastikan marker terlihat jelas
-        map.setView(officeCoords, 17);
-    }, 1000);
-    
-    console.log('Marker created successfully with anchor [25, 55]');
-}
-
-// Hapus fungsi debugMarkerPosition atau perbaiki
-function debugMarkerPosition() {
-    if (!marker) {
-        console.log('Marker not available yet');
-        return;
-    }
-    
-    console.log('=== DEBUG MARKER POSITION ===');
-    console.log('Coordinates:', officeCoords);
-    console.log('Marker position:', marker.getLatLng());
-    console.log('Marker offset:', marker.options.icon.options.iconAnchor);
-    console.log('Marker size:', marker.options.icon.options.iconSize);
-}
-// Setup layer controls
-function setupLayerControls() {
-    // Layer definitions
-    const layers = {
-        streets: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            maxZoom: 19
-        }),
-        
-        satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-            maxZoom: 19
-        }),
-        
-        dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19
-        })
-    };
-
-    // Map layer buttons
-    document.querySelectorAll('.map-control-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const layerName = this.dataset.layer;
-            
-            // Update active button
-            document.querySelectorAll('.map-control-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            // Change layer
-            if (currentLayer) {
-                map.removeLayer(currentLayer);
-            }
-            currentLayer = layers[layerName];
-            currentLayer.addTo(map);
-        });
-    });
-}
-
-// Setup map controls
-function setupMapControls() {
-    // Custom zoom controls
-    const zoomInBtn = document.getElementById('zoom-in');
-    const zoomOutBtn = document.getElementById('zoom-out');
-    const locateBtn = document.getElementById('locate-me');
-    
-    if (zoomInBtn) {
-        zoomInBtn.addEventListener('click', () => {
-            if (map) map.zoomIn();
-        });
-    }
-    
-    if (zoomOutBtn) {
-        zoomOutBtn.addEventListener('click', () => {
-            if (map) map.zoomOut();
-        });
-    }
-    
-    if (locateBtn) {
-        locateBtn.addEventListener('click', () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const userCoords = [position.coords.latitude, position.coords.longitude];
-                    L.marker(userCoords, {
-                        icon: L.divIcon({
-                            className: 'user-marker',
-                            html: '<i class="fas fa-user text-blue-500"></i>',
-                            iconSize: [30, 30]
-                        })
-                    }).addTo(map).bindPopup('Lokasi Anda').openPopup();
-                    
-                    // Pan to user location
-                    map.panTo(userCoords);
-                }, () => {
-                    alert('Tidak dapat mengakses lokasi Anda. Pastikan izin lokasi diaktifkan.');
-                });
-            } else {
-                alert('Geolocation tidak didukung oleh browser Anda.');
-            }
-        });
-    }
-}
-
-// Load Leaflet dynamically with callback
-function loadLeaflet(callback) {
-    // Check if Leaflet is already loaded
-    if (isLeafletLoaded()) {
-        if (callback) callback();
-        return;
-    }
-    
-    // Create script element
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
-    script.crossorigin = '';
-    
-    script.onload = function() {
-        console.log('Leaflet loaded successfully');
-        if (callback) callback();
-    };
-    
-    script.onerror = function() {
-        console.error('Failed to load Leaflet');
-        document.getElementById('map-loading').classList.add('hidden');
-        document.getElementById('map-error').classList.remove('hidden');
-    };
-    
-    document.head.appendChild(script);
-}
-
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // Load Leaflet first
-    loadLeaflet(function() {
-        // Then initialize map
-        setTimeout(initMap, 100);
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (map) {
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 100);
-        }
-    });
-});
-
-// Global retry function
-window.retryMap = function() {
-    const loadingElement = document.getElementById('map-loading');
-    const errorElement = document.getElementById('map-error');
-    
-    loadingElement.classList.remove('hidden');
-    errorElement.classList.add('hidden');
-    
-    // Clear existing map
-    const mapContainer = document.getElementById('leaflet-map');
-    if (mapContainer) {
-        mapContainer.innerHTML = '';
-    }
-    
-    map = null;
-    currentLayer = null;
-    marker = null;
-    
-    // Reload Leaflet
-    loadLeaflet(function() {
-        setTimeout(initMap, 100);
-    });
-};
-// Debug function untuk memeriksa akurasi
-function debugMarkerPosition() {
-    console.log('=== DEBUG MARKER POSITION ===');
-    console.log('Coordinates:', officeCoords);
-    console.log('Marker position:', marker.getLatLng());
-    console.log('Marker offset:', marker.options.icon.options.iconAnchor);
-    console.log('Marker size:', marker.options.icon.options.iconSize);
-    
-    // Tambahkan debug layer
-    const debugLayer = L.layerGroup().addTo(map);
-    
-    // Titik sebenarnya (merah)
-    L.circleMarker(officeCoords, {
-        color: 'red',
-        fillColor: '#f00',
-        fillOpacity: 1,
-        radius: 8
-    }).addTo(debugLayer).bindPopup('Titik koordinat: ' + officeCoords);
-    
-    // Grid untuk referensi
-    L.polyline([
-        [officeCoords[0] - 0.0001, officeCoords[1]],
-        [officeCoords[0] + 0.0001, officeCoords[1]]
-    ], {color: 'blue', dashArray: '5,5'}).addTo(debugLayer);
-    
-    L.polyline([
-        [officeCoords[0], officeCoords[1] - 0.0001],
-        [officeCoords[0], officeCoords[1] + 0.0001]
-    ], {color: 'blue', dashArray: '5,5'}).addTo(debugLayer);
-    
-    console.log('Debug layer added. Click markers to see coordinates.');
-}
-
-// Panggil debug function setelah map loaded
-setTimeout(debugMarkerPosition, 2000);
-</script>
 @endpush

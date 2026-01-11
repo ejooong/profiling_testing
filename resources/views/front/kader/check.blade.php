@@ -442,10 +442,21 @@ if (membershipForm) {
 
 @section('content')
 <!-- Hero Section -->
-<section class="nasdem-gradient py-12 md:py-16 full-width relative overflow-hidden">
+<!-- Hero Section with Gradient & Animated Particles -->
+<section class="nasdem-gradient py-16 md:py-20 full-width relative overflow-hidden">
+    <!-- Animated Background Particles -->
     <div class="absolute inset-0">
-        <div class="absolute top-0 left-0 w-1/3 h-1/3 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-0 w-1/3 h-1/3 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div class="particles">
+            @for ($i = 0; $i < 20; $i++)
+                <div class="particle" style="
+                    --size: {{ rand(2, 6) }}px;
+                    --x: {{ rand(0, 100) }}%;
+                    --y: {{ rand(0, 100) }}%;
+                    --duration: {{ rand(10, 30) }}s;
+                    --delay: {{ rand(0, 10) }}s;
+                "></div>
+            @endfor
+        </div>
     </div>
 
     <div class="px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
@@ -457,7 +468,7 @@ if (membershipForm) {
 </section>
 
 <!-- Main Content -->
-<main class="full-width bg-gray-50 py-12 md:py-16">
+<main class="full-width bg-gradient-to-r from-[#E69D00] to-[#E69D00] py-12 md:py-16">
     <div class="px-4 sm:px-6 lg:px-8 mx-auto max-w-4xl">
         
         <!-- Search Form -->
@@ -605,6 +616,89 @@ if (membershipForm) {
 
 @push('styles')
 <style>
+    /* Hero Section Particles - Sama seperti register page */
+.particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: float var(--duration) linear infinite var(--delay);
+    left: var(--x);
+    top: var(--y);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* Animations */
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animation-delay-100 { transition-delay: 0.1s; }
+.animation-delay-200 { transition-delay: 0.2s; }
+.animation-delay-300 { transition-delay: 0.3s; }
+
+/* Bounce In Animation */
+@keyframes bounce-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bounce-in {
+    animation: bounce-in 0.6s ease-out forwards;
+}
     /* Custom styles for check status page */
     .form-group {
         position: relative;
